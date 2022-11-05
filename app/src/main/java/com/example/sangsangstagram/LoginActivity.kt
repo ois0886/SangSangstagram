@@ -2,12 +2,12 @@ package com.example.sangsangstagram
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.sangsangstagram.databinding.ActivityMainBinding
+import com.example.sangsangstagram.databinding.ActivityLoginBinding
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        val binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 }
