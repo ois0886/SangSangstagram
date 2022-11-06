@@ -3,6 +3,11 @@
     <string name="password">비밀번호</string>
     <string name="email">이메일</string>
     <string name="login">로그인</string>
+    <string name="signIn">회원 가입</string>
+    <string name="google_login">구글 로그인</string>
+    <string name="facebook_login">페이스북 로그인</string>
+    <string name="twitter_login">트위터 로그인</string>
+
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.

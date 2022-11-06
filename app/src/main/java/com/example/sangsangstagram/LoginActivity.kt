@@ -16,9 +16,9 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
-        binding.loginButton.setOnClickListener {
-            val userEmail = binding.editId.text.toString()
-            val password = binding.editPwd.text.toString()
+        binding.signInButton.setOnClickListener {
+            val userEmail = binding.email.text.toString()
+            val password = binding.password.text.toString()
             doLogin(userEmail, password)
         }
     }
