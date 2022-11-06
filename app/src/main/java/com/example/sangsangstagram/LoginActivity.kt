@@ -2,6 +2,7 @@ package com.example.sangsangstagram
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.view.WindowCompat
 import com.example.sangsangstagram.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -9,5 +10,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        WindowCompat.setDecorFitsSystemWindows(window, true)
     }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "615769361396",
+    "project_id": "sangsangstagram",
+    "storage_bucket": "sangsangstagram.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615769361396:android:91439be7d4ba4b3b2707a1",
+        "android_client_info": {
+          "package_name": "com.example.sangsangstagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615769361396-0al42dj4hf3ffvkqbgir3u10vkdq0h7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeLnj7K4cQAEnjsa3HmyadcbAfu5Xkv3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "615769361396-0al42dj4hf3ffvkqbgir3u10vkdq0h7h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
