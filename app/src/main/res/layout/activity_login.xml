@@ -5,11 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
-        android:id="@+id/signin_layout"
+        android:id="@+id/signin_layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/signin_layout2"
+        android:layout_marginBottom="0dp"
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
@@ -67,37 +72,34 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="8dp"
             android:text="@string/signIn" />
+    </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/signin_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="88dp">
+
+        <Button
+            android:id="@+id/googleLoginButton"
+            android:layout_width="140dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="12dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/btn_signin_facebook"
-            android:text="@string/facebook_login" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/btn_signin_google"
             android:text="@string/google_login" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/twitterLoginButton"
+            android:layout_width="140dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="12dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="80dp"
-            android:background="@drawable/btn_signin_twitter"
             android:text="@string/twitter_login" />
-
     </LinearLayout>
 
 </RelativeLayout>
