@@ -23,7 +23,7 @@
             android:fontFamily="@font/cookierun_bold"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textSize="36dp" />
+            android:textSize="36sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -71,13 +71,14 @@
             android:gravity="center"
             android:text="Or" />
 
-        <Button
+        <TextView
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="8dp"
+            android:gravity="center"
             android:text="@string/signUp" />
     </LinearLayout>
 
