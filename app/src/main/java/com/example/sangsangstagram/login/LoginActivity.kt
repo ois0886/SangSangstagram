@@ -1,4 +1,4 @@
-package com.example.sangsangstagram
+package com.example.sangsangstagram.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.WindowCompat
 import com.example.sangsangstagram.databinding.ActivityLoginBinding
+import com.example.sangsangstagram.home.MainActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -25,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, SignUpActivity::class.java))
             finish()
         }
+
     }
 
     private fun doLogin(userEmail: String, password: String) {
