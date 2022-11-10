@@ -5,18 +5,24 @@
         android:id="@+id/PostFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_home_24"
-        android:title="@string/post" />
+        android:title="" />
 
     <item
         android:id="@+id/bookmarkFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_bookmark_border_24"
-        android:title="@string/bookmark" />
+        android:title="" />
 
     <item
         android:id="@+id/chattingRoomFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_chat_bubble_outline_24"
-        android:title="@string/chattingRoom" />
+        android:title="" />
+
+    <item
+        android:id="@+id/MyPageFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_person_pin_24"
+        android:title="" />
 
 </menu>
