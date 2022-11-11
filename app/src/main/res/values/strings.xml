@@ -15,6 +15,7 @@
     <string name="bookmark">북마크</string>
     <string name="chattingRoom">채팅방</string>
     <string name="write_post">게시글 작성</string>
+    <string name="myPage">내 정보</string>
 
     <!--
     This string is used for square devices and overridden by hello_world in

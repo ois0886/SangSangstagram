@@ -8,13 +8,13 @@
         android:title="" />
 
     <item
-        android:id="@+id/bookmarkFragment"
+        android:id="@+id/BookmarkFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_bookmark_border_24"
         android:title="" />
 
     <item
-        android:id="@+id/chattingRoomFragment"
+        android:id="@+id/ChattingRoomFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_chat_bubble_outline_24"
         android:title="" />

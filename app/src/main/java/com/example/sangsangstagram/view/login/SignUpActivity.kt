@@ -1,4 +1,4 @@
-package com.example.sangsangstagram.login
+package com.example.sangsangstagram.view.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

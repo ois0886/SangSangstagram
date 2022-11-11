@@ -1,4 +1,4 @@
-package com.example.sangsangstagram.home
+package com.example.sangsangstagram.view.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
