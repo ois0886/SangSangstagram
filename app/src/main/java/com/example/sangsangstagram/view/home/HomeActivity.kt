@@ -8,7 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityHomeBinding
 import androidx.navigation.ui.setupWithNavController
-import com.example.sangsangstagram.databinding.ActivityPostCreateBinding
+import com.example.sangsangstagram.view.postcreate.PostCreateActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -28,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNav.setupWithNavController(navController)
 
         binding.postCreateButton.setOnClickListener {
-            startActivity(Intent(this, ActivityPostCreateBinding::class.java))
+            startActivity(Intent(this, PostCreateActivity::class.java))
         }
     }
 }

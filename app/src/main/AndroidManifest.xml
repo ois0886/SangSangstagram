@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".PostCreateActivity"
+            android:name="com.example.sangsangstagram.view.postcreate.PostCreateActivity"
             android:exported="false" />
         <activity
             android:name="com.example.sangsangstagram.view.login.SignUpActivity"

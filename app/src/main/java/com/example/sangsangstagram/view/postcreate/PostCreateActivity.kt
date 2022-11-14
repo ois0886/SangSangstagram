@@ -5,9 +5,10 @@ import android.os.Bundle
 import com.example.sangsangstagram.databinding.ActivityPostCreateBinding
 
 class PostCreateActivity : AppCompatActivity() {
+    lateinit var binding: ActivityPostCreateBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityPostCreateBinding.inflate(layoutInflater)
+        binding = ActivityPostCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 }
