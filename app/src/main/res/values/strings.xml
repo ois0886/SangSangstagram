@@ -17,6 +17,7 @@
     <string name="write_post">게시글 작성</string>
     <string name="myPage">내 정보</string>
     <string name="postCreateButton">postCreateButton</string>
+    <string name="postWriteContent">문구 입력...</string>
 
     <!--
     This string is used for square devices and overridden by hello_world in

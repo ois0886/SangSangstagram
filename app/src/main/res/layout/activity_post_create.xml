@@ -6,7 +6,18 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".view.postcreate.PostCreateActivity">
 
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/postWriteContent" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </RelativeLayout>

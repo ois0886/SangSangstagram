@@ -63,6 +63,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postImage" />
 
+    <ToggleButton
+        android:id="@+id/BookmarkButton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginStart="364dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/ic_baseline_bookmark_border_24"
+        android:checked="false"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+
     <TextView
         android:id="@+id/likeCount"
         style="?attr/textAppearanceBodySmall"
