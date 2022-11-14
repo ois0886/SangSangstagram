@@ -1,4 +1,4 @@
-package com.example.sangsangstagram.view.home
+package com.example.sangsangstagram.view.home.chattingroom
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import com.example.sangsangstagram.R
 
 
-class MyPageFragment : Fragment() {
+class ChattingRoomFragment : Fragment() {
     // TODO: Rename and change types of parameters
+    private var param1: String? = null
+    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +23,6 @@ class MyPageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_page, container, false)
+        return inflater.inflate(R.layout.fragment_chatting_room, container, false)
     }
 }

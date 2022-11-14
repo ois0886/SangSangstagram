@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.WindowCompat
 import com.example.sangsangstagram.databinding.ActivityLoginBinding
-import com.example.sangsangstagram.view.home.MainActivity
+import com.example.sangsangstagram.view.home.HomeActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
                     startActivity(
-                        Intent(this, MainActivity::class.java)
+                        Intent(this, HomeActivity::class.java)
                     )
                     finish()
                 } else {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SangSangstagram</string>
+    <string name="app_name">SangSang</string>
     <string name="password">비밀번호</string>
     <string name="email">이메일</string>
     <string name="login">로그인</string>
@@ -16,6 +16,7 @@
     <string name="chattingRoom">채팅방</string>
     <string name="write_post">게시글 작성</string>
     <string name="myPage">내 정보</string>
+    <string name="postCreateButton">postCreateButton</string>
 
     <!--
     This string is used for square devices and overridden by hello_world in

@@ -2,29 +2,30 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/PostFragment">
 
     <fragment
         android:id="@+id/PostFragment"
-        android:name="com.example.sangsangstagram.view.home.PostFragment"
+        android:name="com.example.sangsangstagram.view.home.post.PostFragment"
         android:label="@string/post"
         tools:layout="@layout/fragment_post" />
 
     <fragment
         android:id="@+id/BookmarkFragment"
-        android:name="com.example.sangsangstagram.view.home.BookmarkFragment"
+        android:name="com.example.sangsangstagram.view.home.bookmark.BookmarkFragment"
         android:label="@string/bookmark"
         tools:layout="@layout/fragment_bookmark" />
 
     <fragment
         android:id="@+id/ChattingRoomFragment"
-        android:name="com.example.sangsangstagram.view.home.ChattingRoomFragment"
+        android:name="com.example.sangsangstagram.view.home.chattingroom.ChattingRoomFragment"
         android:label="@string/chattingRoom"
         tools:layout="@layout/fragment_chatting_room" />
 
     <fragment
         android:id="@+id/MyPageFragment"
-        android:name="com.example.sangsangstagram.view.home.MyPageFragment"
+        android:name="com.example.sangsangstagram.view.home.mypage.MyPageFragment"
         android:label="@string/myPage"
         tools:layout="@layout/fragment_my_page" />
 

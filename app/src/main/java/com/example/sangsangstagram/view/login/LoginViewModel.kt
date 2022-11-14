@@ -1,4 +1,7 @@
 package com.example.sangsangstagram.view.login
 
-class LoginViewModel {
+import androidx.lifecycle.ViewModel
+
+class LoginViewModel : ViewModel() {
+
 }
