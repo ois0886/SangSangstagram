@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.login.SignUpActivity">
 
     <LinearLayout
-        android:id="@+id/signin_layout1"
+        android:id="@+id/signUp_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
@@ -37,6 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name"
+                android:inputType="textPersonName"
                 android:maxLines="1"
                 tools:ignore="Autofill,TextFields" />
 
@@ -52,7 +52,9 @@
                 android:id="@+id/birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ems="10"
                 android:hint="@string/birth"
+                android:inputType="date"
                 android:maxLines="1"
                 tools:ignore="Autofill,TextFields" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -67,7 +69,9 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:ems="10"
                 android:hint="@string/email"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 tools:ignore="Autofill,TextFields" />
 
