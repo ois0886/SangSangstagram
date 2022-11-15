@@ -54,7 +54,7 @@
                     app:layout_constraintStart_toEndOf="@+id/profileImage"
                     tools:layout_editor_absoluteY="16dp"
                     tools:text="홍길동"
-                    tools:textColor="@color/black" />
+                    tools:textColor="@color/md_theme_dark_scrim" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                     app:layout_constraintStart_toEndOf="@+id/profileImage"
                     tools:layout_editor_absoluteY="61dp"
                     tools:text="어쩌구 저쩌구~"
-                    tools:textColor="@color/black" />
+                    tools:textColor="@color/md_theme_dark_scrim" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
