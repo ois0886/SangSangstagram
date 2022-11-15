@@ -6,10 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.sangsangstagram.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 
 class MyPageFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+    var fragmentView : View? = null
+    var firestore : FirebaseFirestore? = null
+    var uid : String? = null
+    var auth : FirebaseAuth? = null
+    var currentUserUid : String? = null
+    var loadfollow : ListenerRegistration? = null
+    var loadprofileimage : ListenerRegistration? = null
+
+    companion object{
+        var PICK_PROFILE_FROM_ALBUM = 10
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

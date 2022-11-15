@@ -24,11 +24,12 @@
         <entry key="app/src/main/res/layout/fragment_chatting_room.xml" value="0.24954710144927536" />
         <entry key="app/src/main/res/layout/fragment_my_page.xml" value="0.24954710144927536" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.24954710144927536" />
+        <entry key="app/src/main/res/layout/item_chattingroom.xml" value="0.165" />
         <entry key="app/src/main/res/layout/item_comment.xml" value="0.23052536231884058" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.25" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.27760416666666665" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.27760416666666665" />
-        <entry key="wearable/src/main/res/layout/activity_main.xml" value="0.5324267782426778" />
+        <entry key="wearable/src/main/res/layout/activity_main.xml" value="0.335" />
       </map>
     </option>
   </component>
