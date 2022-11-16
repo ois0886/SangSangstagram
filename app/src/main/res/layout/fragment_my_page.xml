@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp">
 
         <ImageView
             android:id="@+id/account_profile_imageView"
@@ -112,11 +113,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="홍길동"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/account_profile_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/account_profile_imageView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/md_theme_dark_scrim" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/account_recyclerView"
