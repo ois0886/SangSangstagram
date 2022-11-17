@@ -4,11 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2575" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.237" />
+        <entry key="app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.237" />
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark_border_24.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_baseline_chat_bubble_outline_24.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_baseline_create_24.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_pin_24.xml" value="0.238" />
+        <entry key="app/src/main/res/drawable/ic_baseline_send_24.xml" value="0.237" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.171" />
         <entry key="app/src/main/res/drawable/ic_outline_done_outline_24.xml" value="0.163" />
         <entry key="app/src/main/res/font-v26/font.xml" value="0.3078125" />
@@ -17,7 +20,7 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/activity_post_create.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_post_create.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_wearable.xml" value="0.48326359832635984" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.13551165146909827" />

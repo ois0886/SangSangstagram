@@ -42,7 +42,6 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-
     private fun initEventListeners() {
         binding.email.addTextChangedListener {
             if (it != null) {
@@ -77,16 +76,10 @@ class SignUpActivity : AppCompatActivity() {
                 context.getString(R.string.password_is_not_valid)
             } else null
         }
-        binding.passwordCheckInputLayout.apply {
-            isErrorEnabled = uiState.showPasswordNotEquals
-            error = if (uiState.showPasswordNotEquals) {
-                context.getString(R.string.password_is_not_equals)
-            } else null
-        }
 
         if (uiState.successToSignUp) {
             Toast.makeText(this, "회원가입에 성공했습니다.", Toast.LENGTH_LONG).show()
-            navigateToWelcomeView()
+            navigateLoginView()
         }
         if (uiState.userMessage != null) {
             showSnackBar(uiState.userMessage)
@@ -102,7 +95,7 @@ class SignUpActivity : AppCompatActivity() {
         Snackbar.make(this, binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
-    private fun navigateToWelcomeView() {
+    private fun navigateLoginView() {
         val intent = LoginActivity.getIntent(this).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }

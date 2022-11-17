@@ -79,24 +79,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordCheckInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <EditText
-                android:id="@+id/passwordCheck"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/passwordCheck"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                tools:ignore="Autofill,TextFields" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <Button
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"

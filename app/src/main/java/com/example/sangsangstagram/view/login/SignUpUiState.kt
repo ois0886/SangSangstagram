@@ -1,6 +1,7 @@
 package com.example.sangsangstagram.view.login
 
 data class SignUpUiState(
+    val name: String = "",
     val email: String = "",
     val password: String = "",
     val passwordCheck: String = "",
@@ -29,6 +30,4 @@ data class SignUpUiState(
     val showPasswordError: Boolean
         get() = password.isNotEmpty() && !isPasswordValid
 
-    val showPasswordNotEquals: Boolean
-        get() = password == passwordCheck
 }

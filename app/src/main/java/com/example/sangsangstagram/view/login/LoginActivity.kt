@@ -34,17 +34,8 @@ class LoginActivity : AppCompatActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, true)
         if (viewModel.signedIn) {
-            val sharedPreferences = getSharedPreferences(
-                getString(R.string.preference_file_key),
-                Context.MODE_PRIVATE
-            )
-            val hasUserInfo = sharedPreferences.getBoolean(
-                getString(R.string.prefs_has_user_info),
-                false
-            )
-            if (hasUserInfo) {
-                navigateToHomeView()
-            }
+            navigateToHomeView()
+
         }
 
         initEventListeners()

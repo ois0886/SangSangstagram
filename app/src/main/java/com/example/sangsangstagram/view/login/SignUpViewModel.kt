@@ -26,13 +26,13 @@ class SignUpViewModel : ViewModel() {
         val password = uiState.value.password
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val result = AuthRepository.signUp(email, password)
-            if (result.isSuccess) {
+            val result1 = AuthRepository.signUp(email, password)
+            if (result1.isSuccess) {
                 _uiState.update { it.copy(successToSignUp = true, isLoading = false) }
             } else {
                 _uiState.update {
                     it.copy(
-                        userMessage = result.exceptionOrNull()!!.localizedMessage,
+                        userMessage = result1.exceptionOrNull()!!.localizedMessage,
                         isLoading = false
                     )
                 }
