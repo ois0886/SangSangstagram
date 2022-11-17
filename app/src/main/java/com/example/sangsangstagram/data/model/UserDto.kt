@@ -1,6 +1,6 @@
-package com.example.sangsangstagram.model
+package com.example.sangsangstagram.data.model
 
-data class UserDTO(
+data class UserDto(
     val uuid: String = "",
     val name: String = "",
     val introduce: String = "",

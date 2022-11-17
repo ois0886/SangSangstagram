@@ -1,4 +1,4 @@
-package com.example.sangsangstagram.model
+package com.example.sangsangstagram.data.model
 
 data class LikeDto(
     val uuid: String = "",
