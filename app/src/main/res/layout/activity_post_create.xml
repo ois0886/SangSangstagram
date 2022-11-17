@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".view.postcreate.PostCreateActivity">
+    tools:context=".view.home.post.postcreate.PostCreateActivity">
 
 
     <com.google.android.material.textfield.TextInputLayout
