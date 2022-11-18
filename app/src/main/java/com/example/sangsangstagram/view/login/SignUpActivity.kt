@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivitySignUpBinding
+import com.example.sangsangstagram.view.home.HomeActivity
 import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.coroutines.launch
@@ -79,7 +80,7 @@ class SignUpActivity : AppCompatActivity() {
 
         if (uiState.successToSignUp) {
             Toast.makeText(this, "회원가입에 성공했습니다.", Toast.LENGTH_LONG).show()
-            navigateLoginView()
+            navigateUserInfoView()
         }
         if (uiState.userMessage != null) {
             showSnackBar(uiState.userMessage)
@@ -95,8 +96,8 @@ class SignUpActivity : AppCompatActivity() {
         Snackbar.make(this, binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
-    private fun navigateLoginView() {
-        val intent = LoginActivity.getIntent(this).apply {
+    private fun navigateUserInfoView() {
+        val intent = UserInfoActivity.getIntent(this).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)

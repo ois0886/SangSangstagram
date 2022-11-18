@@ -1,29 +1,28 @@
 package com.example.sangsangstagram.view.home.mypage
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import com.example.sangsangstagram.R
+import androidx.fragment.app.viewModels
+import com.example.sangsangstagram.databinding.FragmentMyPageBinding
+import com.example.sangsangstagram.view.home.BaseFragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
-class MyPageFragment : Fragment() {
-    companion object{
-        var PICK_PROFILE_FROM_ALBUM = 10
+class MyPageFragment() : BaseFragment<FragmentMyPageBinding>(FragmentMyPageBinding::inflate) {
+
+    private val viewModel: MyPageViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.bindProfile(getUserUuid())
+
+        binding.accountName.text
+
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_my_page, container, false)
+    private fun getUserUuid(): String {
+        return Firebase.auth.currentUser?.uid.toString()
     }
 }

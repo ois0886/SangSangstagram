@@ -42,7 +42,7 @@
                     android:id="@+id/postCreateButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="109dp"
+                    android:layout_marginStart="150dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_toEndOf="@id/appTitle"
@@ -54,11 +54,11 @@
                     android:id="@+id/LogoutButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="184dp"
+                    android:layout_marginStart="200dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_toEndOf="@id/appTitle"
                     android:background="@null"
-                    android:contentDescription="@string/postCreateButton"
                     android:src="@drawable/ic_baseline_arrow_back_24" />
 
             </RelativeLayout>
