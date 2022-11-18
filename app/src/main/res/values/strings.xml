@@ -28,10 +28,10 @@
     <string name="myPage">내 정보</string>
     <string name="postCreateButton">postCreateButton</string>
     <string name="postWriteContent">문구 입력...</string>
-    <string name="post">Post</string>
-    <string name="following">Following</string>
-    <string name="follower">Follower</string>
-    <string name="follow">Follow</string>
+    <string name="post">게시물</string>
+    <string name="following">팔로잉</string>
+    <string name="follower">팔로워</string>
+    <string name="follow">팔로우</string>
     <string name="follow_cancel">Follow cancel</string>
     <string name="profile">Profile</string>
     <string name="count_0">0</string>

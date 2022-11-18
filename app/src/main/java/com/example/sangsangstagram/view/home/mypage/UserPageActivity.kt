@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.data.model.UserDto
 import com.example.sangsangstagram.databinding.ActivityUserPageBinding
 import com.example.sangsangstagram.view.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -19,11 +22,18 @@ import com.google.firebase.ktx.Firebase
 class UserPageActivity : AppCompatActivity() {
 
     companion object {
-        fun getIntent(context: Context): Intent {
-            return Intent(context, UserPageActivity::class.java)
+        fun getIntent(context: Context, userUuid: String): Intent {
+            return Intent(context, UserPageActivity::class.java).apply {
+                putExtra("userUuid", userUuid)
+            }
         }
     }
 
+    private fun getUserUuid(): String {
+        return intent.getStringExtra("userUuid")!!
+    }
+
+    private val viewModel: UserPageViewModel by viewModels()
     private lateinit var binding: ActivityUserPageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,22 +41,11 @@ class UserPageActivity : AppCompatActivity() {
         binding = ActivityUserPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel
+
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val db = Firebase.firestore
-        var userDto: UserDto? = null
-        val userCollection = db.collection("users")
-
-        val uid = intent.getStringExtra("uuid")
-        Toast.makeText(this, uid, Toast.LENGTH_LONG).show()
-        if (uid != null) {
-            userCollection.document(uid).get().addOnSuccessListener { user ->
-                userDto = user.toObject<UserDto>()
-            }
-        }
-
-        binding.accountName.text = userDto?.name
         binding.backButton.setOnClickListener {
             finish()
         }
