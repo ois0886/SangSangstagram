@@ -9,10 +9,9 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityHomeBinding
 import androidx.navigation.ui.setupWithNavController
+import com.example.sangsangstagram.view.home.mypage.UserPageActivity
 import com.example.sangsangstagram.view.home.post.postcreate.PostCreateActivity
-import com.example.sangsangstagram.view.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -42,11 +41,9 @@ class HomeActivity : AppCompatActivity() {
             startActivity(Intent(this, PostCreateActivity::class.java))
         }
 
-        binding.LogoutButton.setOnClickListener {
-            Firebase.auth.signOut()
-            val intent = LoginActivity.getIntent(this).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
-            }
+        binding.profileImage.setOnClickListener {
+            val intent = UserPageActivity.getIntent(this)
+            intent.putExtra("uuid", Firebase.auth.currentUser?.uid.toString());
             startActivity(intent)
         }
     }

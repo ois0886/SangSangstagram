@@ -176,7 +176,6 @@ object PostRepository {
                 writerUuid = currentUser.uid,
                 content = content,
                 imageUrl = imageFileName,
-                dateTime = Date()
             )
             postCollection.document(postUuid).set(postDto).await()
             Result.success(Unit)

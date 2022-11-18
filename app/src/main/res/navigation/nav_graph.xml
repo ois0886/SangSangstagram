@@ -23,10 +23,4 @@
         android:label="@string/chattingRoom"
         tools:layout="@layout/fragment_chatting_room" />
 
-    <fragment
-        android:id="@+id/MyPageFragment"
-        android:name="com.example.sangsangstagram.view.home.mypage.MyPageFragment"
-        android:label="@string/myPage"
-        tools:layout="@layout/fragment_my_page" />
-
 </navigation>

@@ -21,20 +21,23 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.2786458333333333" />
         <entry key="app/src/main/res/layout/activity_post_create.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_user_info.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_user_page.xml" value="0.2786458333333333" />
         <entry key="app/src/main/res/layout/activity_wearable.xml" value="0.48326359832635984" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.13551165146909827" />
         <entry key="app/src/main/res/layout/fragment_bookmark.xml" value="0.24954710144927536" />
         <entry key="app/src/main/res/layout/fragment_chatting_room.xml" value="0.24954710144927536" />
-        <entry key="app/src/main/res/layout/fragment_my_page.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_my_page.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.24954710144927536" />
         <entry key="app/src/main/res/layout/item_chattingroom.xml" value="0.165" />
         <entry key="app/src/main/res/layout/item_comment.xml" value="0.23052536231884058" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.25" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.27760416666666665" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.27760416666666665" />
+        <entry key="app/src/main/res/menu/user_menu.xml" value="0.2786458333333333" />
         <entry key="wearable/src/main/res/layout/activity_main.xml" value="0.335" />
       </map>
     </option>

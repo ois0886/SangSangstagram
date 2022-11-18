@@ -4,6 +4,7 @@
     <string name="email">이메일</string>
     <string name="login">로그인</string>
     <string name="signout">로그아웃</string>
+    <string name="userInfoUpdate">유저 정보 수정</string>
     <string name="welcome">환영합니다.</string>
     <string name="preference_file_key">SangSangstargram</string>
     <string name="prefs_has_user_info">shownHomePage</string>

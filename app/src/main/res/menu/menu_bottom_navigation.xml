@@ -19,10 +19,4 @@
         android:icon="@drawable/ic_baseline_chat_bubble_outline_24"
         android:title="" />
 
-    <item
-        android:id="@+id/MyPageFragment"
-        android:enabled="true"
-        android:icon="@drawable/ic_baseline_person_pin_24"
-        android:title="" />
-
 </menu>
