@@ -64,7 +64,8 @@ class PostPagingSource(
                     imageUrl = postDto.imageUrl,
                     likeCount = likes.size,
                     meLiked = meLiked,
-                    isMine = postDto.writerUuid == currentUserId
+                    isMine = postDto.writerUuid == currentUserId,
+                    bookMarkChecked = false
                 )
             }
 

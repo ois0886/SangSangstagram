@@ -2,6 +2,7 @@ package com.example.sangsangstagram.view.home.post.postcreate
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.example.sangsangstagram.data.model.PostDto
 import com.example.sangsangstagram.databinding.ActivityPostCreateBinding
 import com.google.firebase.auth.ktx.auth
@@ -12,6 +13,9 @@ import java.util.*
 
 class PostCreateActivity : AppCompatActivity() {
     lateinit var binding: ActivityPostCreateBinding
+
+    private val viewModel: PostCreateViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPostCreateBinding.inflate(layoutInflater)

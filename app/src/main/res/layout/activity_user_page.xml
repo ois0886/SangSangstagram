@@ -31,6 +31,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorOnBackground" />
 
+        <ImageButton
+            android:id="@+id/send_message_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="300dp"
+            android:background="@android:color/transparent"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_baseline_send_24"
+            app:tint="?attr/colorOnBackground" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
@@ -114,10 +125,10 @@
                     android:orientation="vertical">
 
                     <TextView
-                    android:id="@+id/account_following_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/count_0" />
+                        android:id="@+id/account_following_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/count_0" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -134,7 +145,7 @@
             android:id="@+id/account_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:text="홍길동"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -144,9 +155,9 @@
             android:id="@+id/account_introduce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="4dp"
-            android:text="안녕하세요."
+            android:text="@string/hello"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/account_profile_imageView" />
 

@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.sangsangstagram.databinding.ActivityInfoUpdateBinding
-import com.example.sangsangstagram.databinding.ActivityUserPageBinding
 
 class InfoUpdateActivity : AppCompatActivity() {
 
@@ -21,5 +20,14 @@ class InfoUpdateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityInfoUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.backButton.setOnClickListener {
+            finish()
+        }
     }
+
+    private fun initUi(){
+
+    }
+
 }

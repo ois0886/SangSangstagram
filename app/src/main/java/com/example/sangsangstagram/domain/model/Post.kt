@@ -10,4 +10,5 @@ data class Post(
     val likeCount: Int,
     val meLiked: Boolean,
     val isMine: Boolean,
+    val bookMarkChecked: Boolean
 )
