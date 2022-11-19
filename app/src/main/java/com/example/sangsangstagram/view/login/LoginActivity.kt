@@ -14,6 +14,7 @@ import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityLoginBinding
 import com.example.sangsangstagram.view.home.HomeActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
