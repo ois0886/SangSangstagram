@@ -14,11 +14,13 @@ import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityHomeBinding
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.sangsangstagram.view.home.mypage.UserPageActivity
 import com.example.sangsangstagram.view.home.post.postcreate.PostCreateActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.launch
 
@@ -68,16 +70,19 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun homeProfileSet(uiState: HomeUiState) {
-        val storageReference = Firebase.storage.reference
+        val storage: FirebaseStorage = FirebaseStorage.getInstance("gs://sangsangstagram.appspot.com/")
+        val storageReference = storage.reference
         val userDetail = uiState.userDetail
+        val pathReference = userDetail?.profileImageUrl?.let { storageReference.child(it) }
 
-        if (userDetail != null) {
-            binding.apply {
-                userDetail.profileImageUrl?.let {
-                    Glide.with(this@HomeActivity)
-                        .load(storageReference.child(it))
-                        .into(profileImage)
-                }
+        binding.apply {
+            pathReference?.downloadUrl?.addOnSuccessListener { uri ->
+                Glide.with(this@HomeActivity)
+                    .load(uri)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fallback(R.drawable.ic_baseline_person_pin_24)
+                    .centerCrop()
+                    .into(profileImage)
             }
         }
     }
