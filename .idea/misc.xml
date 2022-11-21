@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_chat_bubble_outline_24.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_baseline_create_24.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.238" />
+        <entry key="app/src/main/res/drawable/ic_baseline_meeting_room_24.xml" value="0.2425" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_pin_24.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_baseline_send_24.xml" value="0.237" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.171" />
@@ -19,14 +20,14 @@
         <entry key="app/src/main/res/font/font.xml" value="0.3030769230769231" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.23052536231884058" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_info_update.xml" value="0.2786458333333333" />
+        <entry key="app/src/main/res/layout/activity_info_update.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_my_page.xml" value="0.2786458333333333" />
         <entry key="app/src/main/res/layout/activity_post_create.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_user_info.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_user_page.xml" value="0.2786458333333333" />
+        <entry key="app/src/main/res/layout/activity_user_page.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_wearable.xml" value="0.48326359832635984" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.13551165146909827" />
         <entry key="app/src/main/res/layout/fragment_bookmark.xml" value="0.24954710144927536" />

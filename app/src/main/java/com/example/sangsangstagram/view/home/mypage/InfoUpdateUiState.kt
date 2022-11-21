@@ -1,6 +1,7 @@
 package com.example.sangsangstagram.view.home.mypage
 
 import android.graphics.Bitmap
+import com.example.sangsangstagram.domain.model.UserDetail
 
 data class InfoUpdateUiState(
     val name: String = "",
@@ -10,4 +11,8 @@ data class InfoUpdateUiState(
     val successToSave: Boolean = false,
     val isLoading: Boolean = false,
     val userMessage: String? = null,
+)
+
+data class InfoInitUiState(
+    val userDetail: UserDetail? = null
 )

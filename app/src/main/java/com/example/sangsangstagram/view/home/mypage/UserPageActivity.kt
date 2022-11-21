@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
@@ -15,9 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityUserPageBinding
-import com.example.sangsangstagram.view.login.LoginActivity
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
@@ -78,13 +74,14 @@ class UserPageActivity : AppCompatActivity() {
                         .into(accountProfileImageView)
                 }
                 accountName.text = userDetail.name
+                accountIntroduce.text = userDetail.introduce
 
                 if (userDetail.isMe) {
                     accountProfileButton.text = getString(R.string.update)
                     accountProfileButton.setOnClickListener {
+                        finish()
                         startInfoUpdateUi()
                     }
-
                     sendMessageButton.isVisible = false
                 }
 
@@ -93,7 +90,8 @@ class UserPageActivity : AppCompatActivity() {
     }
 
     private fun startInfoUpdateUi() {
-        val intent = InfoUpdateActivity.getIntent(this)
+        val intent = InfoUpdateActivity.getIntent(this, Firebase.auth.currentUser?.uid.toString())
+        finish()
         startActivity(intent)
     }
 }
