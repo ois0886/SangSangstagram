@@ -7,6 +7,9 @@ import kotlinx.coroutines.tasks.await
 
 object AuthRepository {
 
+    val currentUserUuid: String?
+        get() = Firebase.auth.currentUser?.uid
+
     fun isSignedIn(): Boolean {
         return Firebase.auth.currentUser != null
     }
