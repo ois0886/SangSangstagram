@@ -1,13 +1,28 @@
 package com.example.sangsangstagram.view.home.post.postcreate
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.bumptech.glide.Glide
 import com.example.sangsangstagram.data.model.PostDto
 import com.example.sangsangstagram.databinding.ActivityPostCreateBinding
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,6 +30,34 @@ class PostCreateActivity : AppCompatActivity() {
     lateinit var binding: ActivityPostCreateBinding
 
     private val viewModel: PostCreateViewModel by viewModels()
+    private var storageReference = Firebase.storage.reference
+
+    private val fileChooserContract =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
+            if (imageUri != null) {
+                viewModel.selectImage(imageUri)
+            } else if (viewModel.uiState.value.selectedImage == null && viewModel.uiState.value.isCreating) {
+                finish()
+            }
+        }
+
+    companion object {
+        fun getIntent(context: Context): Intent {
+            return Intent(context, PostCreateActivity::class.java)
+        }
+
+        fun getIntent(
+            context: Context,
+            postContent: String,
+            postImage: String,
+            postUuid: String
+        ): Intent {
+            return Intent(context, PostCreateActivity::class.java)
+                .putExtra("content", postContent)
+                .putExtra("image", postImage)
+                .putExtra("uuid", postUuid)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,21 +65,81 @@ class PostCreateActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.postBackButton.setOnClickListener {
+
             finish()
         }
 
-        binding.postButton.setOnClickListener {
-            val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.KOREA).format(Date())
-            val postContent = binding.imageExpression.text.toString()
-            val uuid = Firebase.auth.currentUser?.uid.toString()
-            val postId = Firebase.auth.currentUser?.uid.toString()
-            val imageUrl = binding.addImage.toString()
 
-            val post = PostDto(uuid, postContent, imageUrl, timestamp)
+        val glide = Glide.with(this)
+        val contentEditText = binding.imageExpression
+        val imageView = binding.addImage
+        val backButton = binding.postBackButton
+        val postButton = binding.postButton
+        val postContent = intent.getStringExtra("content")
+        val postImage = intent.getStringExtra("image")
+        val postUuid = intent.getStringExtra("uuid")
 
-            val db = FirebaseFirestore.getInstance().collection("posts")
-            db.document(postId)
-                .set(post)
+        if (postContent != null && postImage != null && postUuid != null) {
+            viewModel.changeToEditMode()
+            glide.load(storageReference.child(postImage))
+                .into(imageView)
+
+            contentEditText.setText(postContent)
+        } else {
+            showImagePicker()
         }
+
+        postButton.setOnClickListener {
+            if (!viewModel.uiState.value.isCreating) {
+                viewModel.editContent(postUuid.toString(), contentEditText.text.toString())
+            } else {
+                viewModel.uploadContent(contentEditText.text.toString())
+            }
+        }
+
+        imageView.setOnClickListener {
+            showImagePicker()
+        }
+
+        backButton.setOnClickListener {
+            finish()
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect(::updateUi)
+            }
+        }
+    }
+
+    private fun updateUi(uiState: PostCreateUiState) {
+        if (uiState.selectedImage != null) {
+            binding.addImage.setImageURI(uiState.selectedImage)
+        }
+        if (uiState.userMessage != null) {
+            showSnackBar(getString(uiState.userMessage))
+            viewModel.userMessageShown()
+        }
+        if (uiState.successToUpload) {
+            Toast.makeText(this, "게시글 업로드에 성공했습니다.", Toast.LENGTH_LONG).show()
+            setResult(RESULT_OK)
+            finish()
+        }
+
+        binding.postButton.apply {
+            isEnabled = !uiState.isLoading
+            alpha = if (uiState.isLoading) 0.5F else 1.0F
+        }
+    }
+
+    private fun showImagePicker() {
+        if (!viewModel.uiState.value.isLoading) {
+            fileChooserContract.launch("image/*")
+        }
+    }
+
+    private fun showSnackBar(message: String) {
+        val root = binding.postingRoot
+        Snackbar.make(root, message, Snackbar.LENGTH_LONG).show()
     }
 }

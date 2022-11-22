@@ -37,7 +37,8 @@
         android:src="@drawable/ic_baseline_menu_24"
         app:layout_constraintBottom_toBottomOf="@+id/profileImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/profileImage" />
+        app:layout_constraintTop_toTopOf="@+id/profileImage"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <ImageView
         android:id="@+id/postImage"
@@ -62,7 +63,8 @@
         android:textOff=""
         android:textOn=""
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toBottomOf="@+id/postImage"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <ToggleButton
         android:id="@+id/CommentButton"
@@ -78,7 +80,8 @@
         android:textOff=""
         android:textOn=""
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toBottomOf="@+id/postImage"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <ToggleButton
         android:id="@+id/BookmarkButton"
@@ -94,7 +97,8 @@
         android:textOff=""
         android:textOn=""
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toBottomOf="@+id/postImage"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/likeCount"

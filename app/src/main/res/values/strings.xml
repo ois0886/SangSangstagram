@@ -36,6 +36,8 @@
     <string name="count_0">0</string>
     <string name="UserID">UserID</string>
     <string name="text">text</string>
+    <string name="likeCount">좋아요 %d개</string>
+    <string name="post_deleted">게시물이 삭제되었습니다.</string>
 
     <string-array name="image_options">
         <item>갤러리에서 선택</item>
