@@ -65,12 +65,14 @@ class HomeActivity : AppCompatActivity() {
 
         binding.profileImage.setOnClickListener {
             val intent = UserPageActivity.getIntent(this, Firebase.auth.currentUser?.uid.toString())
+            finish()
             startActivity(intent)
         }
     }
 
     private fun homeProfileSet(uiState: HomeUiState) {
-        val storage: FirebaseStorage = FirebaseStorage.getInstance("gs://sangsangstagram.appspot.com/")
+        val storage: FirebaseStorage =
+            FirebaseStorage.getInstance("gs://sangsangstagram.appspot.com/")
         val storageReference = storage.reference
         val userDetail = uiState.userDetail
         val pathReference = userDetail?.profileImageUrl?.let { storageReference.child(it) }

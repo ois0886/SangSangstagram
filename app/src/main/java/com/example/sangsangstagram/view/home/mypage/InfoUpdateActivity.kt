@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,9 +16,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityInfoUpdateBinding
+import com.example.sangsangstagram.domain.model.UserDetail
 import com.example.sangsangstagram.view.login.LoginActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -31,109 +29,92 @@ import kotlinx.coroutines.launch
 
 class InfoUpdateActivity : AppCompatActivity() {
 
+    private val viewModel: InfoUpdateViewModel by viewModels()
+
+    private lateinit var binding: ActivityInfoUpdateBinding
+
     companion object {
-        fun getIntent(context: Context, userUuid: String): Intent {
+        fun getIntent(context: Context, userDetail: UserDetail): Intent {
             return Intent(context, InfoUpdateActivity::class.java).apply {
-                putExtra("userUuid", userUuid)
+                putExtra("userDetail", userDetail)
             }
         }
     }
 
-    private fun getUserUuid(): String {
-        return intent.getStringExtra("userUuid")!!
+    private fun getUserDetail(): UserDetail {
+        return intent.getSerializableExtra("userDetail") as UserDetail
     }
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { imageUri ->
             if (imageUri != null) {
-                val bitmap = imageUri.toBitmap(this)
+                @Suppress("DEPRECATION")
+                val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    ImageDecoder.decodeBitmap(
+                        ImageDecoder.createSource(
+                            contentResolver,
+                            imageUri
+                        )
+                    )
+                } else {
+                    MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+                }
                 viewModel.updateImageBitmap(bitmap)
+                binding.profileImage.setImageBitmap(bitmap)
             }
-
         }
-
-    private fun Uri.toBitmap(context: Context): Bitmap =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            ImageDecoder.decodeBitmap(
-                ImageDecoder.createSource(context.contentResolver, this)
-            ) { decoder: ImageDecoder, _: ImageDecoder.ImageInfo?, _: ImageDecoder.Source? ->
-                decoder.isMutableRequired = true
-                decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
-            }
-        } else {
-            @Suppress("DEPRECATION")
-            BitmapDrawable(
-                context.resources,
-                MediaStore.Images.Media.getBitmap(context.contentResolver, this)
-            ).bitmap
-        }
-
-    private val viewModel: InfoUpdateViewModel by viewModels()
-
-    private lateinit var binding: ActivityInfoUpdateBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInfoUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel.initUpdateInfo(getUserUuid())
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState2.collect(::initUi)
-            }
-        }
+        val userDetail = getUserDetail()
+        viewModel.bind(userDetail.name, userDetail.introduce)
+        initUi(userDetail) // TODO : userDetail uiState 어찌 넣을지 고민하기
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState1.collect(::updateUi)
+                viewModel.infoUpdateUiState.collect(::updateUi)
             }
         }
 
         binding.backButton.setOnClickListener {
-            finish()
+            startUserPageView()
         }
 
         binding.logoutButton.setOnClickListener {
             logOut()
         }
-
-        binding.imageView.setOnClickListener {
-            onClickImage()
-        }
     }
 
-    private fun initUi(uiState: InfoInitUiState) {
-        val storage: FirebaseStorage =
-            FirebaseStorage.getInstance("gs://sangsangstagram.appspot.com/")
-        val storageReference = storage.reference
-        val userDetail = uiState.userDetail
-        val pathReference = userDetail?.profileImageUrl?.let { storageReference.child(it) }
+    private fun initUi(userdata: UserDetail) {
 
-        if (userDetail != null) {
-            binding.apply {
-                pathReference?.downloadUrl?.addOnSuccessListener { uri ->
-                    Glide.with(this@InfoUpdateActivity)
-                        .load(uri)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .fallback(R.drawable.ic_baseline_person_pin_24)
-                        .centerCrop()
-                        .into(profileImage)
-                }
-                viewModel.bind(userDetail.name, userDetail.introduce)
-                userNameEditText.setText(userDetail.name)
-                userIntroduceEditText.setText(userDetail.introduce)
+        binding.apply {
+            imageView.setOnClickListener {
+                onClickImage()
+            }
+            val storage: FirebaseStorage =
+                FirebaseStorage.getInstance("gs://sangsangstagram.appspot.com/")
+            val storageReference = storage.reference
+            userdata.profileImageUrl?.let {
+                Glide.with(this@InfoUpdateActivity)
+                    .load(storageReference.child(it))
+                    .fallback(R.drawable.ic_baseline_person_pin_24)
+                    .circleCrop()
+                    .into(binding.profileImage)
+            }
+            viewModel.bind(userdata.name, userdata.introduce)
+            userNameEditText.setText(userdata.name)
+            userIntroduceEditText.setText(userdata.introduce)
 
-                userNameEditText.addTextChangedListener {
-                    if (it != null) {
-                        viewModel.updateName(it.toString())
-                    }
+            userNameEditText.addTextChangedListener {
+                if (it != null) {
+                    viewModel.updateName(it.toString())
                 }
-                userIntroduceEditText.addTextChangedListener {
-                    if (it != null) {
-                        viewModel.updateIntroduce(it.toString())
-                    }
+            }
+            userIntroduceEditText.addTextChangedListener {
+                if (it != null) {
+                    viewModel.updateIntroduce(it.toString())
                 }
             }
         }
@@ -154,6 +135,7 @@ class InfoUpdateActivity : AppCompatActivity() {
             setOnClickListener {
                 viewModel.sendChangedInfo()
                 finish()
+                startUserPageView()
             }
         }
         if (uiState.isImageChanged) {
@@ -170,9 +152,9 @@ class InfoUpdateActivity : AppCompatActivity() {
     }
 
     private fun onClickImage() {
-        val selectedImage = viewModel.uiState1.value.selectedImageBitmap
-        val oldProfileImageUrl = viewModel.uiState2.value.userDetail?.profileImageUrl
-        val isImageChanged = viewModel.uiState1.value.isImageChanged
+        val selectedImage = viewModel.infoUpdateUiState.value.selectedImageBitmap
+        val oldProfileImageUrl = viewModel.infoInitUiState.value.userDetail?.profileImageUrl
+        val isImageChanged = viewModel.infoUpdateUiState.value.isImageChanged
 
         if (selectedImage == null && (oldProfileImageUrl == null || isImageChanged)) {
             showImagePicker()
@@ -191,6 +173,12 @@ class InfoUpdateActivity : AppCompatActivity() {
                 }.create()
                 .show()
         }
+    }
+
+    private fun startUserPageView() {
+        val intent = UserPageActivity.getIntent(this, Firebase.auth.currentUser?.uid.toString())
+        finish()
+        startActivity(intent)
     }
 
     private fun logOut() {

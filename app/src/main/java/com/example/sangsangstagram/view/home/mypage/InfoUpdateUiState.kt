@@ -13,6 +13,6 @@ data class InfoUpdateUiState(
     val userMessage: String? = null,
 )
 
-data class InfoInitUiState(
+data class _infoInitUiState(
     val userDetail: UserDetail? = null
 )

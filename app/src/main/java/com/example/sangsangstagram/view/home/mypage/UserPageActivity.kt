@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityUserPageBinding
+import com.example.sangsangstagram.domain.model.UserDetail
+import com.example.sangsangstagram.view.home.HomeActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -52,7 +54,9 @@ class UserPageActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         binding.backButton.setOnClickListener {
+            val intent = HomeActivity.getIntent(this)
             finish()
+            startActivity(intent)
         }
     }
 
@@ -80,7 +84,7 @@ class UserPageActivity : AppCompatActivity() {
                     accountProfileButton.text = getString(R.string.update)
                     accountProfileButton.setOnClickListener {
                         finish()
-                        startInfoUpdateUi()
+                        startInfoUpdateUi(userDetail)
                     }
                     sendMessageButton.isVisible = false
                 }
@@ -89,8 +93,8 @@ class UserPageActivity : AppCompatActivity() {
         }
     }
 
-    private fun startInfoUpdateUi() {
-        val intent = InfoUpdateActivity.getIntent(this, Firebase.auth.currentUser?.uid.toString())
+    private fun startInfoUpdateUi(userDetail: UserDetail) {
+        val intent = InfoUpdateActivity.getIntent(this, userDetail)
         finish()
         startActivity(intent)
     }
