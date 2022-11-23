@@ -78,6 +78,8 @@ class InfoUpdateActivity : AppCompatActivity() {
             }
         }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInfoUpdateBinding.inflate(layoutInflater)
@@ -94,11 +96,16 @@ class InfoUpdateActivity : AppCompatActivity() {
         }
 
         binding.backButton.setOnClickListener {
-            startUserPageView()
+            finish()
+            val intent = UserPageActivity.getIntent(this, userDetail.uuid)
+            startActivity(intent)
         }
 
         binding.logoutButton.setOnClickListener {
             logOut()
+        }
+        binding.doneButton.setOnClickListener {
+            viewModel.sendChangedInfo()
         }
     }
 
@@ -149,11 +156,6 @@ class InfoUpdateActivity : AppCompatActivity() {
         binding.doneButton.apply {
             val canSave = viewModel.canSave
             isEnabled = canSave
-            setOnClickListener {
-                viewModel.sendChangedInfo()
-                finish()
-                startUserPageView()
-            }
         }
         if (uiState.isImageChanged) {
             updateUserImage(uiState.selectedImageBitmap)
@@ -190,12 +192,6 @@ class InfoUpdateActivity : AppCompatActivity() {
                 }.create()
                 .show()
         }
-    }
-
-    private fun startUserPageView() {
-        val intent = UserPageActivity.getIntent(this, Firebase.auth.currentUser?.uid.toString())
-        finish()
-        startActivity(intent)
     }
 
     private fun logOut() {

@@ -119,11 +119,6 @@ class PostFragment(
         launcher.launch(intent)
     }
 
-    private fun startPostCreateActivity() {
-        val intent = PostCreateActivity.getIntent(requireContext())
-        launcher.launch(intent)
-    }
-
     inner class PagingLoadStateAdapter(
         private val retry: () -> Unit,
     ) : LoadStateAdapter<PagingLoadStateViewHolder>() {

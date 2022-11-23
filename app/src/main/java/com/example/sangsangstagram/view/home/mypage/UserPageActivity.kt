@@ -54,8 +54,8 @@ class UserPageActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         binding.backButton.setOnClickListener {
-            val intent = HomeActivity.getIntent(this)
             finish()
+            val intent = HomeActivity.getIntent(this)
             startActivity(intent)
         }
     }
@@ -96,5 +96,6 @@ class UserPageActivity : AppCompatActivity() {
     private fun startInfoUpdateUi(userDetail: UserDetail) {
         val intent = InfoUpdateActivity.getIntent(this, userDetail)
         startActivity(intent)
+        finish()
     }
 }

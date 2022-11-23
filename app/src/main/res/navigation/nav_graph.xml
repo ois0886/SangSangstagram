@@ -17,10 +17,4 @@
         android:label="@string/bookmark"
         tools:layout="@layout/fragment_bookmark" />
 
-    <fragment
-        android:id="@+id/ChattingRoomFragment"
-        android:name="com.example.sangsangstagram.view.home.chattingroom.ChattingRoomFragment"
-        android:label="@string/chattingRoom"
-        tools:layout="@layout/fragment_chatting_room" />
-
 </navigation>

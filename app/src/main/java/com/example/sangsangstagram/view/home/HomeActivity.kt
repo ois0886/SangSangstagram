@@ -66,6 +66,7 @@ class HomeActivity : AppCompatActivity() {
         binding.profileImage.setOnClickListener {
             val intent = UserPageActivity.getIntent(this, Firebase.auth.currentUser?.uid.toString())
             startActivity(intent)
+            finish()
         }
     }
 

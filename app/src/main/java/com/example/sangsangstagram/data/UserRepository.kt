@@ -102,7 +102,7 @@ object UserRepository {
             uuid = user.uid,
             name = name,
             email = user.email,
-            introduce = "ㅎㅇ요."
+            introduce = "안녕하세요."
         )
 
         val userReference = Firebase.firestore.collection("users").document(user.uid)

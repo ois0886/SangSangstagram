@@ -40,7 +40,7 @@
         <entry key="app/src/main/res/layout/item_load_state.xml" value="0.13551165146909827" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.25" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.27760416666666665" />
-        <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.27760416666666665" />
+        <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.1" />
         <entry key="app/src/main/res/menu/user_menu.xml" value="0.2786458333333333" />
         <entry key="wearable/src/main/res/layout/activity_main.xml" value="0.335" />
       </map>
