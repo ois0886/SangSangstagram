@@ -3,7 +3,9 @@ package com.example.sangsangstagram.view.home.mypage
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.sangsangstagram.data.AuthRepository
 import com.example.sangsangstagram.data.UserRepository
+import com.example.sangsangstagram.domain.model.UserDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,9 +17,6 @@ class InfoUpdateViewModel : ViewModel() {
 
     private val _infoUpdateUiState = MutableStateFlow(InfoUpdateUiState())
     val infoUpdateUiState: StateFlow<InfoUpdateUiState> = _infoUpdateUiState.asStateFlow()
-
-    private val _infoInitUiState = MutableStateFlow(_infoInitUiState())
-    val infoInitUiState: StateFlow<_infoInitUiState> = _infoInitUiState.asStateFlow()
 
     private var didBound = false
     private lateinit var oldName: String

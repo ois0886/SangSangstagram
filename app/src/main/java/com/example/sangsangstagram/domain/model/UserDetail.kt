@@ -12,3 +12,4 @@ data class UserDetail(
     val isCurrentUserFollowing: Boolean,
     val isMe: Boolean
 ) : java.io.Serializable
+

@@ -74,7 +74,7 @@ class UserPageActivity : AppCompatActivity() {
                         .load(uri)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .fallback(R.drawable.ic_baseline_person_pin_24)
-                        .centerCrop()
+                        .circleCrop()
                         .into(accountProfileImageView)
                 }
                 accountName.text = userDetail.name
@@ -95,7 +95,6 @@ class UserPageActivity : AppCompatActivity() {
 
     private fun startInfoUpdateUi(userDetail: UserDetail) {
         val intent = InfoUpdateActivity.getIntent(this, userDetail)
-        finish()
         startActivity(intent)
     }
 }

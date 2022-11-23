@@ -65,7 +65,6 @@ class HomeActivity : AppCompatActivity() {
 
         binding.profileImage.setOnClickListener {
             val intent = UserPageActivity.getIntent(this, Firebase.auth.currentUser?.uid.toString())
-            finish()
             startActivity(intent)
         }
     }
@@ -83,7 +82,7 @@ class HomeActivity : AppCompatActivity() {
                     .load(uri)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .fallback(R.drawable.ic_baseline_person_pin_24)
-                    .centerCrop()
+                    .circleCrop()
                     .into(profileImage)
             }
         }

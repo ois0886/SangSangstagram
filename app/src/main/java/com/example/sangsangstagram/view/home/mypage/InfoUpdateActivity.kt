@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -26,41 +28,53 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 class InfoUpdateActivity : AppCompatActivity() {
+
+    fun <T : Serializable?> Intent.getSerializable(key: String, m_class: Class<T>): T {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            this.getSerializableExtra(key, m_class)!!
+        else
+            this.getSerializableExtra(key) as T
+    }
 
     private val viewModel: InfoUpdateViewModel by viewModels()
 
     private lateinit var binding: ActivityInfoUpdateBinding
 
     companion object {
-        fun getIntent(context: Context, userDetail: UserDetail): Intent {
+        fun getIntent(
+            context: Context,
+            userDetail: UserDetail
+        ): Intent {
             return Intent(context, InfoUpdateActivity::class.java).apply {
                 putExtra("userDetail", userDetail)
             }
         }
     }
 
-    private fun getUserDetail(): UserDetail {
-        return intent.getSerializableExtra("userDetail") as UserDetail
-    }
+    fun Uri.toBitmap(context: Context): Bitmap =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            ImageDecoder.decodeBitmap(
+                ImageDecoder.createSource(context.contentResolver, this)
+            ) { decoder: ImageDecoder, _: ImageDecoder.ImageInfo?, _: ImageDecoder.Source? ->
+                decoder.isMutableRequired = true
+                decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
+            }
+        } else {
+            @Suppress("DEPRECATION")
+            BitmapDrawable(
+                context.resources,
+                MediaStore.Images.Media.getBitmap(context.contentResolver, this)
+            ).bitmap
+        }
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { imageUri ->
             if (imageUri != null) {
-                @Suppress("DEPRECATION")
-                val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    ImageDecoder.decodeBitmap(
-                        ImageDecoder.createSource(
-                            contentResolver,
-                            imageUri
-                        )
-                    )
-                } else {
-                    MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
-                }
+                val bitmap = imageUri.toBitmap(this)
                 viewModel.updateImageBitmap(bitmap)
-                binding.profileImage.setImageBitmap(bitmap)
             }
         }
 
@@ -68,9 +82,10 @@ class InfoUpdateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityInfoUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val userDetail = getUserDetail()
+
+        val userDetail = intent.getSerializable("userDetail", UserDetail::class.java)
         viewModel.bind(userDetail.name, userDetail.introduce)
-        initUi(userDetail) // TODO : userDetail uiState 어찌 넣을지 고민하기
+        initUi(userDetail)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -87,25 +102,26 @@ class InfoUpdateActivity : AppCompatActivity() {
         }
     }
 
-    private fun initUi(userdata: UserDetail) {
+    private fun initUi(userDetail: UserDetail) {
+        val storage: FirebaseStorage =
+            FirebaseStorage.getInstance("gs://sangsangstagram.appspot.com/")
+        val storageReference = storage.reference
+        val pathReference = userDetail.profileImageUrl?.let { storageReference.child(it) }
+
 
         binding.apply {
             imageView.setOnClickListener {
-                onClickImage()
+                onClickImage(userDetail)
             }
-            val storage: FirebaseStorage =
-                FirebaseStorage.getInstance("gs://sangsangstagram.appspot.com/")
-            val storageReference = storage.reference
-            userdata.profileImageUrl?.let {
+            pathReference?.downloadUrl?.addOnSuccessListener { uri ->
                 Glide.with(this@InfoUpdateActivity)
-                    .load(storageReference.child(it))
+                    .load(uri)
                     .fallback(R.drawable.ic_baseline_person_pin_24)
                     .circleCrop()
                     .into(binding.profileImage)
             }
-            viewModel.bind(userdata.name, userdata.introduce)
-            userNameEditText.setText(userdata.name)
-            userIntroduceEditText.setText(userdata.introduce)
+            userNameEditText.setText(userDetail.name)
+            userIntroduceEditText.setText(userDetail.introduce)
 
             userNameEditText.addTextChangedListener {
                 if (it != null) {
@@ -119,6 +135,7 @@ class InfoUpdateActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun updateUserImage(bitmap: Bitmap?) {
         Glide.with(this@InfoUpdateActivity)
@@ -151,9 +168,9 @@ class InfoUpdateActivity : AppCompatActivity() {
         }
     }
 
-    private fun onClickImage() {
+    private fun onClickImage(userDetail: UserDetail) {
         val selectedImage = viewModel.infoUpdateUiState.value.selectedImageBitmap
-        val oldProfileImageUrl = viewModel.infoInitUiState.value.userDetail?.profileImageUrl
+        val oldProfileImageUrl = userDetail.profileImageUrl
         val isImageChanged = viewModel.infoUpdateUiState.value.isImageChanged
 
         if (selectedImage == null && (oldProfileImageUrl == null || isImageChanged)) {

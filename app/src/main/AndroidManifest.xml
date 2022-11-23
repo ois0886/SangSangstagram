@@ -26,9 +26,6 @@
             android:name="com.example.sangsangstagram.view.login.UserInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.sangsangstagram.view.home.chattingroom.ChatActivity"
-            android:exported="false" />
-        <activity
             android:name="com.example.sangsangstagram.view.home.post.postcreate.PostCreateActivity"
             android:exported="false" />
         <activity
