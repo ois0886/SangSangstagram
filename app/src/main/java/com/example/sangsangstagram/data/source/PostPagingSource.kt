@@ -1,5 +1,7 @@
 package com.example.sangsangstagram.data.source
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.google.firebase.auth.ktx.auth
@@ -26,6 +28,7 @@ class PostPagingSource(
         return null
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun load(
         params: LoadParams<QuerySnapshot>
     ): LoadResult<QuerySnapshot, Post> {
@@ -65,7 +68,8 @@ class PostPagingSource(
                     likeCount = likes.size,
                     meLiked = meLiked,
                     isMine = postDto.writerUuid == currentUserId,
-                    bookMarkChecked = false
+                    bookMarkChecked = false,
+                    time = postDto.dataTime
                 )
             }
 

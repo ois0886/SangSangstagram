@@ -1,11 +1,10 @@
-package com.example.sangsangstagram.view.home.mypage
+package com.example.sangsangstagram.view.home.userpage
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -15,8 +14,6 @@ import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityUserPageBinding
 import com.example.sangsangstagram.domain.model.UserDetail
 import com.example.sangsangstagram.view.home.HomeActivity
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 
@@ -54,9 +51,9 @@ class UserPageActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         binding.backButton.setOnClickListener {
-            finish()
             val intent = HomeActivity.getIntent(this)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -86,7 +83,6 @@ class UserPageActivity : AppCompatActivity() {
                         finish()
                         startInfoUpdateUi(userDetail)
                     }
-                    sendMessageButton.isVisible = false
                 }
 
             }

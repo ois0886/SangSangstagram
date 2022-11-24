@@ -1,11 +1,9 @@
-package com.example.sangsangstagram.view.home.mypage
+package com.example.sangsangstagram.view.home.userpage
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sangsangstagram.data.AuthRepository
 import com.example.sangsangstagram.data.UserRepository
-import com.example.sangsangstagram.domain.model.UserDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

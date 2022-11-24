@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.home.mypage.UserPageActivity">
+    tools:context=".view.home.userpage.UserPageActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -29,17 +29,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/colorOnBackground" />
-
-        <ImageButton
-            android:id="@+id/send_message_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="300dp"
-            android:background="@android:color/transparent"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            android:src="@drawable/ic_baseline_send_24"
             app:tint="?attr/colorOnBackground" />
 
     </androidx.appcompat.widget.Toolbar>

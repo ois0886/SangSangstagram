@@ -56,12 +56,12 @@ object UserRepository {
         val followCollection = db.collection("followers")
 
         try {
-            val followeeUuids = followCollection.whereEqualTo("followerUuid", followerUuid)
+            val followingUuids = followCollection.whereEqualTo("followerUuid", followerUuid)
                 .get().await()
                 .documents.map {
-                    requireNotNull(it.toObject(FollowDto::class.java)).followeeUuid
+                    requireNotNull(it.toObject(FollowDto::class.java)).followingUuid
                 }
-            val followingUsersQuery = userCollection.whereIn("uuid", followeeUuids)
+            val followingUsersQuery = userCollection.whereIn("uuid", followingUuids)
 
             return Pager(PagingConfig(pageSize = PAGE_SIZE)) {
                 UserPagingSource(userQuery = followingUsersQuery)
@@ -71,13 +71,13 @@ object UserRepository {
         }
     }
 
-    suspend fun getFollowersPaging(followeeUuid: String): Flow<PagingData<UserDto>> {
+    suspend fun getFollowersPaging(followingUuid: String): Flow<PagingData<UserDto>> {
         val db = Firebase.firestore
         val userCollection = db.collection("users")
         val followCollection = db.collection("followers")
 
         try {
-            val followerUuids = followCollection.whereEqualTo("followeeUuid", followeeUuid)
+            val followerUuids = followCollection.whereEqualTo("followingUuid", followingUuid)
                 .get().await()
                 .documents.map {
                     requireNotNull(it.toObject(FollowDto::class.java)).followerUuid
@@ -216,7 +216,7 @@ object UserRepository {
         try {
             val alreadyFollowing = !followCollection
                 .whereEqualTo("followerUuid", currentUser.uid)
-                .whereEqualTo("followeeUuid", targetUserUuid)
+                .whereEqualTo("followingUuid", targetUserUuid)
                 .get().await().isEmpty
             if (alreadyFollowing) {
                 throw IllegalStateException("이미 팔로우 중인 상대를 팔로우 하였습니다.")
@@ -228,7 +228,7 @@ object UserRepository {
 
         val followDto = FollowDto(
             uuid = UUID.randomUUID().toString(),
-            followeeUuid = targetUserUuid,
+            followingUuid = targetUserUuid,
             followerUuid = currentUser.uid
         )
         return try {
@@ -249,7 +249,7 @@ object UserRepository {
         return try {
             val followDto = followCollection
                 .whereEqualTo("followerUuid", currentUser.uid)
-                .whereEqualTo("followeeUuid", targetUserUuid)
+                .whereEqualTo("followingUuid", targetUserUuid)
                 .get().await().first().toObject(FollowDto::class.java)
 
             followCollection.document(followDto.uuid).delete()
@@ -274,13 +274,13 @@ object UserRepository {
                 .get().await().toObject(UserDto::class.java)!!
             val postCount = postCollection.whereEqualTo("writerUuid", userUuid).count()
                 .get(AggregateSource.SERVER).await().count
-            val followersCount = followCollection.whereEqualTo("followeeUuid", userUuid)
+            val followersCount = followCollection.whereEqualTo("followingUuid", userUuid)
                 .count().get(AggregateSource.SERVER).await().count
             val followingCount = followCollection.whereEqualTo("followerUuid", userUuid)
                 .count().get(AggregateSource.SERVER).await().count
             val isCurrentUserFollowing = !followCollection
                 .whereEqualTo("followerUuid", currentUser.uid)
-                .whereEqualTo("followeeUuid", userUuid)
+                .whereEqualTo("followingUuid", userUuid)
                 .get().await().isEmpty
 
             return Result.success(

@@ -1,6 +1,8 @@
 package com.example.sangsangstagram.data
 
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -15,6 +17,8 @@ import com.example.sangsangstagram.data.source.PostPagingSource
 import com.example.sangsangstagram.domain.model.Post
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.UUID
 
@@ -31,7 +35,7 @@ object PostRepository {
                 PostPagingSource(getWriterUuids = {
                     val result = UserRepository.getFollowingList()
                     if (result.isSuccess) {
-                        result.getOrNull()!!.map { it.followeeUuid }.toMutableList().apply {
+                        result.getOrNull()!!.map { it.followingUuid }.toMutableList().apply {
                             add(currentUser.uid)
                         }
                     } else {
@@ -151,6 +155,7 @@ object PostRepository {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun uploadPost(
         content: String,
         imageUri: Uri
@@ -170,12 +175,17 @@ object PostRepository {
             return Result.failure(e)
         }
 
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val formatted = current.format(formatter)
+
         return try {
             val postDto = PostDto(
                 uuid = postUuid,
                 writerUuid = currentUser.uid,
                 content = content,
                 imageUrl = imageFileName,
+                dataTime = formatted
             )
             postCollection.document(postUuid).set(postDto).await()
             Result.success(Unit)

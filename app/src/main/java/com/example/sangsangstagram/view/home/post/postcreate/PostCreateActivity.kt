@@ -2,6 +2,7 @@ package com.example.sangsangstagram.view.home.post.postcreate
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -59,6 +61,7 @@ class PostCreateActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPostCreateBinding.inflate(layoutInflater)

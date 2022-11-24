@@ -1,4 +1,4 @@
-package com.example.sangsangstagram.view.home.mypage
+package com.example.sangsangstagram.view.home.userpage
 
 import android.content.Context
 import android.content.Intent
@@ -78,8 +78,6 @@ class InfoUpdateActivity : AppCompatActivity() {
             }
         }
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInfoUpdateBinding.inflate(layoutInflater)
@@ -96,9 +94,8 @@ class InfoUpdateActivity : AppCompatActivity() {
         }
 
         binding.backButton.setOnClickListener {
+            startUserPageActivity(userDetail)
             finish()
-            val intent = UserPageActivity.getIntent(this, userDetail.uuid)
-            startActivity(intent)
         }
 
         binding.logoutButton.setOnClickListener {
@@ -162,7 +159,7 @@ class InfoUpdateActivity : AppCompatActivity() {
         }
 
         if (uiState.successToSave) {
-            showSnackBar(getString(R.string.changeImage))
+            showSnackBar(getString(R.string.chage_profile))
         }
         if (uiState.userMessage != null) {
             showSnackBar(uiState.userMessage)
@@ -209,4 +206,8 @@ class InfoUpdateActivity : AppCompatActivity() {
         pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 
+    private fun startUserPageActivity(userDetail: UserDetail) {
+        val intent = UserPageActivity.getIntent(this, userDetail.uuid)
+        startActivity(intent)
+    }
 }

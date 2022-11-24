@@ -1,4 +1,4 @@
-package com.example.sangsangstagram.view.home.mypage
+package com.example.sangsangstagram.view.home.userpage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

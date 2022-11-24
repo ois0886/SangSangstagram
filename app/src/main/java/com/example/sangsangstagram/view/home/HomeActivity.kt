@@ -15,13 +15,12 @@ import com.example.sangsangstagram.databinding.ActivityHomeBinding
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.sangsangstagram.view.home.mypage.UserPageActivity
+import com.example.sangsangstagram.view.home.userpage.UserPageActivity
 import com.example.sangsangstagram.view.home.post.postcreate.PostCreateActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.launch
 
 

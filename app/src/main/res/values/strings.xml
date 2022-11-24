@@ -16,6 +16,7 @@
     <string name="password_is_not_valid">유효한 비밀번호가 아닙니다.</string>
     <string name="signUp">회원 가입</string>
     <string name="failed">실패!</string>
+    <string name="empty">아무것도 없어!</string>
     <string name="name">이름</string>
     <string name="start">시작하기</string>
     <string name="loading">로딩중…</string>
@@ -40,6 +41,7 @@
     <string name="post_deleted">게시물이 삭제되었습니다.</string>
     <string name="fail_to_connect">연결 실패!</string>
     <string name="retry">다시!</string>
+    <string name="chage_profile">프로필을 변경하였습니다.</string>
 
     <string-array name="image_options">
         <item>갤러리에서 선택</item>
