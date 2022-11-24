@@ -69,7 +69,7 @@ class PostPagingSource(
                     meLiked = meLiked,
                     isMine = postDto.writerUuid == currentUserId,
                     bookMarkChecked = false,
-                    time = postDto.dataTime
+                    time = postDto.dateTime.toString()
                 )
             }
 

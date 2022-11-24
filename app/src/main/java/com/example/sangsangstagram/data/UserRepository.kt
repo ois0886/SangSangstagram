@@ -24,6 +24,30 @@ object UserRepository {
     private const val PAGE_SIZE = 30
 
     private var followingList: MutableList<FollowDto>? = null
+    private var allUserList: MutableList<UserDto>? = null
+
+    suspend fun getAllUserList(): Result<List<UserDto>> {
+        if (allUserList != null) {
+            return Result.success(requireNotNull(allUserList))
+        }
+        val userCollection =
+            Firebase.firestore.collection("users")
+                .orderBy("name")
+                .limit(PAGE_SIZE.toLong())
+        try {
+            val userSnapshot = userCollection.get().await()
+            if (userSnapshot.isEmpty) {
+                allUserList = mutableListOf()
+                return Result.success(requireNotNull(allUserList))
+            }
+            allUserList = userSnapshot.documents.map {
+                requireNotNull(it.toObject(UserDto::class.java))
+            }.toMutableList()
+            return Result.success(requireNotNull(allUserList))
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
+    }
 
     suspend fun getFollowingList(): Result<List<FollowDto>> {
         if (followingList != null) {

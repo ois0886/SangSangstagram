@@ -37,7 +37,8 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
 
         val adapter = PostAdapter(
             onClickLikeButton = ::onClickLikeButton,
-            onClickUser = ::onClickUser
+            onClickUser = ::onClickUser,
+            onClickMoreButton = ::onClickMoreButton
         )
 
         initRecyclerView(adapter)
@@ -83,6 +84,10 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
     private fun startProfileActivity(userUuid: String) {
         val intent = UserPageActivity.getIntent(requireContext(), userUuid)
         launcher?.launch(intent)
+    }
+
+    private fun onClickMoreButton(uiState: PostItemUiState){
+
     }
 
     private fun showSnackBar(message: String) {

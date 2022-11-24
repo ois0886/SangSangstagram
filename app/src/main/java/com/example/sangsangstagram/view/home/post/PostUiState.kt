@@ -22,7 +22,8 @@ data class PostItemUiState(
     val imageUrl: String,
     val likeCount: Int,
     val meLiked: Boolean,
-    val isMine: Boolean
+    val isMine: Boolean,
+    val time:String
 )
 
 fun Post.toUiState() = PostItemUiState(
@@ -34,5 +35,6 @@ fun Post.toUiState() = PostItemUiState(
     imageUrl = imageUrl,
     likeCount = likeCount,
     meLiked = meLiked,
-    isMine = isMine
+    isMine = isMine,
+    time = time
 )

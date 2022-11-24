@@ -17,8 +17,6 @@ import com.example.sangsangstagram.data.source.PostPagingSource
 import com.example.sangsangstagram.domain.model.Post
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.UUID
 
@@ -33,11 +31,9 @@ object PostRepository {
 
             return Pager(PagingConfig(pageSize = PAGE_SIZE)) {
                 PostPagingSource(getWriterUuids = {
-                    val result = UserRepository.getFollowingList()
+                    val result = UserRepository.getAllUserList()
                     if (result.isSuccess) {
-                        result.getOrNull()!!.map { it.followingUuid }.toMutableList().apply {
-                            add(currentUser.uid)
-                        }
+                        result.getOrNull()!!.map { it.uuid }.toMutableList()
                     } else {
                         throw IllegalStateException("회원 정보 얻기 실패")
                     }
@@ -175,17 +171,13 @@ object PostRepository {
             return Result.failure(e)
         }
 
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val formatted = current.format(formatter)
-
         return try {
             val postDto = PostDto(
                 uuid = postUuid,
                 writerUuid = currentUser.uid,
                 content = content,
                 imageUrl = imageFileName,
-                dataTime = formatted
+                dateTime = Date()
             )
             postCollection.document(postUuid).set(postDto).await()
             Result.success(Unit)

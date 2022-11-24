@@ -18,6 +18,7 @@ class PostViewHolder(
     private val binding: ItemPostBinding,
     private val onClickUser: (PostItemUiState) -> Unit,
     private val onClickLikeButton: (PostItemUiState) -> Unit,
+    private val onClickMoreButton: (PostItemUiState) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val storageReference = Firebase.storage.reference
@@ -35,6 +36,11 @@ class PostViewHolder(
         }
         profileImage.setOnClickListener {
             onClickUser(uiState)
+        }
+
+        moreInfoButton.isVisible = uiState.isMine
+        moreInfoButton.setOnClickListener {
+            onClickMoreButton(uiState)
         }
 
         glide.load(storageReference.child(uiState.imageUrl))
@@ -64,5 +70,6 @@ class PostViewHolder(
         content.text = spannable
         content.isVisible = uiState.content.isNotEmpty()
 
+        timeAgo.text = uiState.time
     }
 }
