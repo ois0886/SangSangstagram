@@ -1,6 +1,8 @@
 package com.example.sangsangstagram.view.home.post.postcreate
 
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sangsangstagram.R
@@ -22,6 +24,7 @@ class PostCreateViewModel : ViewModel() {
         _uiState.update { it.copy(isCreating = false) }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun uploadContent(content: String) {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {

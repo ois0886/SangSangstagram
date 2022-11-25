@@ -12,7 +12,9 @@
         <entry key="app/src/main/res/drawable/ic_baseline_create_24.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.238" />
         <entry key="app/src/main/res/drawable/ic_baseline_meeting_room_24.xml" value="0.2425" />
+        <entry key="app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_pin_24.xml" value="0.238" />
+        <entry key="app/src/main/res/drawable/ic_baseline_post_add_24.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_baseline_send_24.xml" value="0.237" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.171" />
         <entry key="app/src/main/res/drawable/ic_outline_done_outline_24.xml" value="0.163" />
@@ -39,8 +41,10 @@
         <entry key="app/src/main/res/layout/item_comment.xml" value="0.23052536231884058" />
         <entry key="app/src/main/res/layout/item_load_state.xml" value="0.13551165146909827" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_user.xml" value="0.2658514492753623" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.27760416666666665" />
-        <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/menu_post.xml" value="0.27760416666666665" />
         <entry key="app/src/main/res/menu/user_menu.xml" value="0.2786458333333333" />
         <entry key="wearable/src/main/res/layout/activity_main.xml" value="0.335" />
       </map>

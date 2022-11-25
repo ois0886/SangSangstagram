@@ -53,19 +53,10 @@ class PostViewModel : ViewModel() {
         }
     }
 
-    fun showPostOptionBottomSheet(postItemUiState: PostItemUiState) {
-        _uiState.update { it.copy(selectedPostItem = postItemUiState) }
-    }
-
-    fun deleteSelectedPost(onDeleted: () -> Unit) {
+    fun deleteSelectedPost(uiState: PostItemUiState) {
         viewModelScope.launch {
-            val postItem = _uiState.value.selectedPostItem
-            check(postItem != null)
-            val result = PostRepository.deletePost(postItem.uuid)
-
-            if (result.isSuccess) {
-                onDeleted()
-            }
+            check(true)
+            val result = PostRepository.deletePost(uiState.uuid)
             _uiState.update {
                 it.copy(
                     userMessage = if (result.isSuccess) {
@@ -76,9 +67,5 @@ class PostViewModel : ViewModel() {
                 )
             }
         }
-    }
-
-    fun userMessageShown() {
-        _uiState.update { it.copy(userMessage = null) }
     }
 }

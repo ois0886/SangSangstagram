@@ -40,15 +40,17 @@
 
                 <ImageButton
                     android:id="@+id/postCreateButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_marginStart="150dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_toEndOf="@id/appTitle"
                     android:background="@null"
                     android:contentDescription="@string/postCreateButton"
-                    android:src="@drawable/ic_baseline_create_24" />
+                    android:minWidth="48dp"
+                    android:minHeight="48dp"
+                    android:src="@drawable/ic_baseline_post_add_24" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profileImage"
@@ -56,6 +58,7 @@
                     android:layout_height="36dp"
                     android:layout_marginStart="200dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginBottom="10dp"
                     android:layout_toEndOf="@id/appTitle"
                     android:background="@android:color/transparent"

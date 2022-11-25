@@ -10,7 +10,7 @@
     <item
         android:id="@+id/BookmarkFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_bookmark_border_24"
+        android:icon="@drawable/ic_baseline_bookmark_24"
         android:title="" />
 
 </menu>

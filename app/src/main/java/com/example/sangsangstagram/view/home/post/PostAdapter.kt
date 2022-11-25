@@ -9,7 +9,8 @@ import com.example.sangsangstagram.databinding.ItemPostBinding
 class PostAdapter(
     private val onClickUser: (PostItemUiState) -> Unit,
     private val onClickLikeButton: (PostItemUiState) -> Unit,
-    private val onClickMoreButton: (PostItemUiState) -> Unit
+    private val onClickDeleteButton: (PostItemUiState) -> Unit,
+    private val onClickEditButton: (PostItemUiState) -> Unit
 ) : PagingDataAdapter<PostItemUiState, PostViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -19,7 +20,8 @@ class PostAdapter(
             binding,
             onClickLikeButton = onClickLikeButton,
             onClickUser = onClickUser,
-            onClickMoreButton = onClickMoreButton
+            onClickDeleteButton = onClickDeleteButton,
+            onClickEditButton = onClickEditButton
         )
     }
 

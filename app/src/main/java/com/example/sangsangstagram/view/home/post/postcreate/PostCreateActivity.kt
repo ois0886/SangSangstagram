@@ -23,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -82,10 +83,18 @@ class PostCreateActivity : AppCompatActivity() {
         val postImage = intent.getStringExtra("image")
         val postUuid = intent.getStringExtra("uuid")
 
+        val storage: FirebaseStorage =
+            FirebaseStorage.getInstance("gs://sangsangstagram.appspot.com/")
+        val storageReference = storage.reference
+
         if (postContent != null && postImage != null && postUuid != null) {
             viewModel.changeToEditMode()
-            glide.load(storageReference.child(postImage))
-                .into(imageView)
+            val postReference = postImage.let { storageReference.child(it) }
+            postReference.downloadUrl.addOnSuccessListener { uri ->
+                glide
+                    .load(uri)
+                    .into(binding.addImage)
+            }
 
             contentEditText.setText(postContent)
         } else {

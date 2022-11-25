@@ -12,10 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.FragmentPostBinding
 import com.example.sangsangstagram.view.RefreshStateContract
 import com.example.sangsangstagram.view.home.BaseFragment
+import com.example.sangsangstagram.view.home.post.postcreate.PostCreateActivity
 import com.example.sangsangstagram.view.home.userpage.UserPageActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -38,7 +41,8 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
         val adapter = PostAdapter(
             onClickLikeButton = ::onClickLikeButton,
             onClickUser = ::onClickUser,
-            onClickMoreButton = ::onClickMoreButton
+            onClickDeleteButton = ::onClickDeleteButton,
+            onClickEditButton = ::onClickEditButton
         )
 
         initRecyclerView(adapter)
@@ -67,6 +71,7 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
 
         loadState.setListeners(adapter, swipeRefreshLayout)
         adapter.registerObserverForScrollToTop(recyclerView, whenItemRangeMoved = true)
+        adapter.refresh()
     }
 
     private fun updateUi(uiState: PostListUiState, adapter: PostAdapter) {
@@ -86,11 +91,33 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
         launcher?.launch(intent)
     }
 
-    private fun onClickMoreButton(uiState: PostItemUiState){
-
-    }
-
     private fun showSnackBar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun onClickDeleteButton(uiState: PostItemUiState) {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(getString(R.string.delete_post))
+            setMessage(R.string.delete_message)
+            setNegativeButton(R.string.cancel) { _, _ -> }
+            setPositiveButton(R.string.delete) { _, _ ->
+                viewModel.deleteSelectedPost(uiState)
+            }
+        }.show()
+    }
+
+    private fun onClickEditButton(uiState: PostItemUiState) {
+        val postContent = uiState.content
+        val postImage = uiState.imageUrl
+        val postUuid = uiState.uuid
+
+        val intent = PostCreateActivity.getIntent(
+            requireContext(),
+            postContent = postContent,
+            postImage = postImage,
+            postUuid = postUuid
+        )
+
+        launcher?.launch(intent)
     }
 }

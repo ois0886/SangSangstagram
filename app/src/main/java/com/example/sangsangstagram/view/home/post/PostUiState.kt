@@ -23,7 +23,8 @@ data class PostItemUiState(
     val likeCount: Int,
     val meLiked: Boolean,
     val isMine: Boolean,
-    val time:String
+    val bookMarkChecked: Boolean,
+    val time: String
 )
 
 fun Post.toUiState() = PostItemUiState(
@@ -36,5 +37,6 @@ fun Post.toUiState() = PostItemUiState(
     likeCount = likeCount,
     meLiked = meLiked,
     isMine = isMine,
+    bookMarkChecked = bookMarkChecked,
     time = time
 )
