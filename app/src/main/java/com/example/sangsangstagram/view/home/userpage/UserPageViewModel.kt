@@ -2,25 +2,94 @@ package com.example.sangsangstagram.view.home.userpage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
+import com.example.sangsangstagram.data.PostRepository
 import com.example.sangsangstagram.data.UserRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import com.example.sangsangstagram.domain.model.UserDetail
+import com.example.sangsangstagram.view.home.post.toUiState
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class UserPageViewModel() : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UserPageUiState())
-    val uiState: StateFlow<UserPageUiState> = _uiState.asStateFlow()
+    private val _userPageUiState = MutableStateFlow(UserPageUiState())
+    val userPageUiState: StateFlow<UserPageUiState> = _userPageUiState.asStateFlow()
 
     fun profileUpdate(userUuid: String) {
         viewModelScope.launch {
             val result = UserRepository.getUserDetail(userUuid)
             if (result.isSuccess) {
-                _uiState.update { it.copy(userDetail = result.getOrNull()!!) }
+                _userPageUiState.update { it.copy(userDetail = result.getOrNull()!!) }
             }
         }
     }
 
+    private val _userPagePostUiState = MutableStateFlow(UserPagePostUiState())
+    val userPagePostUiState = _userPagePostUiState.asStateFlow()
+
+    private fun loadPostByUser(targetUuid: String) {
+        viewModelScope.launch {
+            PostRepository.getPostDetailsByUser(targetUuid).cachedIn(viewModelScope)
+                .collectLatest { pagingData ->
+                    _userPagePostUiState.update { userPagePostUiState ->
+                        userPagePostUiState.copy(pagingData = pagingData.map { it.toUiState() })
+                    }
+                }
+        }
+    }
+
+    fun toggleFollow() {
+        val userDetail = _userPageUiState.value.userDetail
+        check(userDetail != null)
+        viewModelScope.launch {
+            if (userDetail.isCurrentUserFollowing) {
+                unfollow(userDetail)
+            } else {
+                follow(userDetail)
+            }
+        }
+    }
+
+    private suspend fun follow(userDetail: UserDetail) {
+        val result = UserRepository.follow(userDetail.uuid)
+        if (result.isSuccess) {
+            _userPageUiState.update {
+                it.copy(
+                    userDetail = userDetail.copy(
+                        followersCount = userDetail.followersCount + 1,
+                        isCurrentUserFollowing = true
+                    )
+                )
+            }
+        } else {
+            _userPageUiState.update {
+                it.copy(userMessage = result.exceptionOrNull()!!.message)
+            }
+        }
+    }
+
+    private suspend fun unfollow(userDetail: UserDetail) {
+        val result = UserRepository.unfollow(userDetail.uuid)
+        if (result.isSuccess) {
+            _userPageUiState.update {
+                it.copy(
+                    userDetail = userDetail.copy(
+                        followersCount = userDetail.followersCount - 1,
+                        isCurrentUserFollowing = false
+                    )
+                )
+            }
+        } else {
+            _userPageUiState.update {
+                it.copy(userMessage = result.exceptionOrNull()!!.message)
+            }
+        }
+    }
+
+    fun userMessageShown() {
+        _userPageUiState.update {
+            it.copy(userMessage = null)
+        }
+    }
 }

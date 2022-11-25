@@ -17,6 +17,12 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".view.home.post.comment.CommentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.home.userpage.follwing.FollowingActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.sangsangstagram.view.home.userpage.InfoUpdateActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />

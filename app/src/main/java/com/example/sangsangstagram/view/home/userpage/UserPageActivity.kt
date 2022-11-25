@@ -41,9 +41,20 @@ class UserPageActivity : AppCompatActivity() {
 
         viewModel.profileUpdate(getUserUuid())
 
+        binding.accountProfileButton.setOnClickListener {
+            val isMe = viewModel.userPageUiState.value.userDetail!!.isMe
+            if (isMe) {
+                binding.accountProfileButton.text = getString(R.string.update)
+                startInfoUpdateUi(viewModel.userPageUiState.value.userDetail!!)
+            } else {
+                viewModel.toggleFollow()
+                setResult(RESULT_OK)
+            }
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect(::updateUi)
+                viewModel.userPageUiState.collect(::updateUi)
             }
         }
 
@@ -76,17 +87,13 @@ class UserPageActivity : AppCompatActivity() {
                 }
                 accountName.text = userDetail.name
                 accountIntroduce.text = userDetail.introduce
-
-                if (userDetail.isMe) {
-                    accountProfileButton.text = getString(R.string.update)
-                    accountProfileButton.setOnClickListener {
-                        finish()
-                        startInfoUpdateUi(userDetail)
-                    }
-                }
+                accountPostCount.text = userDetail.postCount.toString()
+                accountFollowerCount.text = userDetail.followersCount.toString()
+                accountFollowingCount.text = userDetail.followingCount.toString()
 
             }
         }
+        viewModel.userMessageShown()
     }
 
     private fun startInfoUpdateUi(userDetail: UserDetail) {

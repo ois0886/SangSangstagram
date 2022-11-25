@@ -68,4 +68,8 @@ class PostViewModel : ViewModel() {
             }
         }
     }
+
+    fun userMessageShown() {
+        _uiState.update { it.copy(userMessage = null) }
+    }
 }

@@ -76,14 +76,17 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
 
     private fun updateUi(uiState: PostListUiState, adapter: PostAdapter) {
         adapter.submitData(viewLifecycleOwner.lifecycle, uiState.pagingData)
+        viewModel.userMessageShown()
     }
 
     private fun onClickUser(uiState: PostItemUiState) {
         startProfileActivity(uiState.writerUuid)
+        viewModel.userMessageShown()
     }
 
     private fun onClickLikeButton(uiState: PostItemUiState) {
         viewModel.toggleLike(postUuid = uiState.uuid)
+        viewModel.userMessageShown()
     }
 
     private fun startProfileActivity(userUuid: String) {

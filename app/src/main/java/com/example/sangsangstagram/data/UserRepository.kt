@@ -212,26 +212,6 @@ object UserRepository {
         return Result.success(Unit)
     }
 
-    fun searchUser(name: String): Flow<PagingData<UserDto>> {
-        val userCollection = Firebase.firestore.collection("users")
-        val queryUsersByName = if (name.isEmpty()) {
-            // 검색어가 빈 경우 전체 목록을 보인다.
-            userCollection
-                .orderBy("name")
-                .limit(PAGE_SIZE.toLong())
-        } else {
-            userCollection
-                .orderBy("name")
-                .startAt(name)
-                .endAt(name + "\uf8ff")
-                .limit(PAGE_SIZE.toLong())
-        }
-
-        return Pager(PagingConfig(pageSize = PAGE_SIZE)) {
-            UserPagingSource(userQuery = queryUsersByName)
-        }.flow
-    }
-
     suspend fun follow(targetUserUuid: String): Result<Unit> {
         val currentUser = Firebase.auth.currentUser
         val followCollection = Firebase.firestore.collection("followers")
