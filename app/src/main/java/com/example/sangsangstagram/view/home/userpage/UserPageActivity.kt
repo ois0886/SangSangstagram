@@ -44,7 +44,6 @@ class UserPageActivity : AppCompatActivity() {
         binding.accountProfileButton.setOnClickListener {
             val isMe = viewModel.userPageUiState.value.userDetail!!.isMe
             if (isMe) {
-                binding.accountProfileButton.text = getString(R.string.update)
                 startInfoUpdateUi(viewModel.userPageUiState.value.userDetail!!)
             } else {
                 viewModel.toggleFollow()
@@ -85,6 +84,7 @@ class UserPageActivity : AppCompatActivity() {
                         .circleCrop()
                         .into(accountProfileImageView)
                 }
+                accountProfileButton.text = getString(R.string.update)
                 accountName.text = userDetail.name
                 accountIntroduce.text = userDetail.introduce
                 accountPostCount.text = userDetail.postCount.toString()
