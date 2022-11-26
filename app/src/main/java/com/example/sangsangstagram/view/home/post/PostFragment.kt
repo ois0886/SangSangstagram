@@ -77,8 +77,8 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
     private fun updateUi(uiState: PostListUiState, adapter: PostAdapter) {
         adapter.submitData(viewLifecycleOwner.lifecycle, uiState.pagingData)
         if (uiState.userMessage != null) {
-            showSnackBar(getString(uiState.userMessage))
             viewModel.userMessageShown()
+            showSnackBar(getString(uiState.userMessage))
         }
     }
 

@@ -28,18 +28,11 @@ class FollowingViewHolder(
                 .into(profileImage)
         }
 
-        glide.load(uiState.profileImageUrl?.let { storageReference.child(it) })
-            .fallback(R.drawable.ic_baseline_person_pin_24)
-            .into(profileImage)
-
         name.text = uiState.name
         introduce.text = uiState.introduce
 
         root.setOnClickListener {
             onClickUser(uiState)
         }
-
-
     }
-
 }

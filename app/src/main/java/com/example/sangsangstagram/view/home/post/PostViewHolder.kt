@@ -13,7 +13,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ItemPostBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 
 
 class PostViewHolder(
@@ -24,9 +26,7 @@ class PostViewHolder(
     private val onClickEditButton: (PostItemUiState) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val storage: FirebaseStorage =
-        FirebaseStorage.getInstance("gs://sangsangstagram.appspot.com/")
-    private val storageReference = storage.reference
+    private val storageReference = Firebase.storage.reference
 
     @SuppressLint("UseCompatLoadingForDrawables")
     fun bind(uiState: PostItemUiState) = with(binding) {
@@ -35,12 +35,18 @@ class PostViewHolder(
         val writerReference = uiState.writerProfileImageUrl?.let { storageReference.child(it) }
         val postReference = uiState.imageUrl.let { storageReference.child(it) }
 
-        writerReference?.downloadUrl?.addOnSuccessListener { uri ->
-            glide
-                .load(uri)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+        if (writerReference != null) {
+            writerReference.downloadUrl.addOnSuccessListener { uri ->
+                glide
+                    .load(uri)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .fallback(R.drawable.ic_baseline_person_pin_24)
+                    .circleCrop()
+                    .into(profileImage)
+            }
+        } else {
+            glide.load(uiState.writerProfileImageUrl?.let { storageReference.child(it) })
                 .fallback(R.drawable.ic_baseline_person_pin_24)
-                .circleCrop()
                 .into(profileImage)
         }
 

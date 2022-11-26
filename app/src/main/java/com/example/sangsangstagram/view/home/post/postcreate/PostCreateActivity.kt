@@ -5,35 +5,24 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
-import com.example.sangsangstagram.data.model.PostDto
+import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityPostCreateBinding
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.*
 
 class PostCreateActivity : AppCompatActivity() {
     lateinit var binding: ActivityPostCreateBinding
 
     private val viewModel: PostCreateViewModel by viewModels()
-    private var storageReference = Firebase.storage.reference
 
     private val fileChooserContract =
         registerForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
@@ -45,10 +34,6 @@ class PostCreateActivity : AppCompatActivity() {
         }
 
     companion object {
-        fun getIntent(context: Context): Intent {
-            return Intent(context, PostCreateActivity::class.java)
-        }
-
         fun getIntent(
             context: Context,
             postContent: String,
@@ -69,7 +54,6 @@ class PostCreateActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.postBackButton.setOnClickListener {
-
             finish()
         }
 
@@ -95,7 +79,8 @@ class PostCreateActivity : AppCompatActivity() {
                     .load(uri)
                     .into(binding.addImage)
             }
-
+            binding.toolbarTitle.text = getString(R.string.post_edit)
+            binding.postButton.text = getString(R.string.post_editting)
             contentEditText.setText(postContent)
         } else {
             showImagePicker()

@@ -51,7 +51,11 @@ class FollowingActivity : AppCompatActivity() {
         val type = intent.getSerializable("type", UserListPageType::class.java)
         viewModel.bind(userUuid, type)
 
-        val adapter = FollowingAdapter(onClickUser = ::onClickUser)
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+
+        val adapter = FollowingAdapter(onClickUser = this::onClickUser)
         initRecyclerView(adapter)
 
         lifecycleScope.launch {
@@ -80,7 +84,6 @@ class FollowingActivity : AppCompatActivity() {
         val intent = UserPageActivity.getIntent(this, userUuid = uiState.uuid)
         finish()
         startActivity(intent)
-
     }
 
     private fun updateUi(uiState: FollowingUiState, adapter: FollowingAdapter) {

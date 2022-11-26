@@ -54,13 +54,31 @@ class UserPageActivity : AppCompatActivity() {
         }
 
         binding.accountFollowerCount.setOnClickListener {
-            val intent = FollowingActivity.getIntent(this, getUserUuid(), UserListPageType.FOLLOWER)
+            val intent =
+                FollowingActivity.getIntent(this, getUserUuid(), UserListPageType.FOLLOWER)
             startActivity(intent)
+            finish()
+        }
+
+        binding.follower.setOnClickListener {
+            val intent =
+                FollowingActivity.getIntent(this, getUserUuid(), UserListPageType.FOLLOWER)
+            startActivity(intent)
+            finish()
         }
 
         binding.accountFollowingCount.setOnClickListener {
-            val intent = FollowingActivity.getIntent(this, getUserUuid(), UserListPageType.FOLLOWING)
+            val intent =
+                FollowingActivity.getIntent(this, getUserUuid(), UserListPageType.FOLLOWING)
             startActivity(intent)
+            finish()
+        }
+
+        binding.following.setOnClickListener {
+            val intent =
+                FollowingActivity.getIntent(this, getUserUuid(), UserListPageType.FOLLOWING)
+            startActivity(intent)
+            finish()
         }
 
         lifecycleScope.launch {
@@ -97,8 +115,14 @@ class UserPageActivity : AppCompatActivity() {
                         .into(accountProfileImageView)
                 }
                 val isMe = viewModel.userPageUiState.value.userDetail!!.isMe
-                if(isMe){
+                if (isMe) {
                     accountProfileButton.text = getString(R.string.update)
+                } else {
+                    if (uiState.userDetail.isCurrentUserFollowing) {
+                        accountProfileButton.text = getString(R.string.unfollow)
+                    } else {
+                        accountProfileButton.text = getString(R.string.follow)
+                    }
                 }
                 accountName.text = userDetail.name
                 accountIntroduce.text = userDetail.introduce

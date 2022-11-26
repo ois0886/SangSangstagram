@@ -2,22 +2,21 @@ package com.example.sangsangstagram.view.home
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
-import com.example.sangsangstagram.R
-import com.example.sangsangstagram.databinding.ActivityHomeBinding
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.sangsangstagram.view.home.userpage.UserPageActivity
+import com.example.sangsangstagram.R
+import com.example.sangsangstagram.databinding.ActivityHomeBinding
 import com.example.sangsangstagram.view.home.post.postcreate.PostCreateActivity
-import com.example.sangsangstagram.view.setResultRefresh
+import com.example.sangsangstagram.view.home.userpage.UserPageActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
