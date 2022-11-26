@@ -20,7 +20,7 @@ class InfoUpdateViewModel : ViewModel() {
     private lateinit var oldName: String
     private lateinit var oldIntroduce: String
 
-    val isChanged
+    private val isChanged
         get() = infoUpdateUiState.value.isImageChanged ||
                 oldName != infoUpdateUiState.value.name ||
                 oldIntroduce != infoUpdateUiState.value.introduce

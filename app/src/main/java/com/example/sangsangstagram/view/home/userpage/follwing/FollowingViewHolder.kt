@@ -17,9 +17,9 @@ class FollowingViewHolder(
 
     fun bind(uiState: UserItemUiState) = with(binding) {
         val glide = com.bumptech.glide.Glide.with(root)
-        val Reference = uiState.profileImageUrl?.let { storageReference.child(it) }
+        val reference = uiState.profileImageUrl?.let { storageReference.child(it) }
 
-        Reference?.downloadUrl?.addOnSuccessListener { uri ->
+        reference?.downloadUrl?.addOnSuccessListener { uri ->
             glide
                 .load(uri)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -38,7 +38,6 @@ class FollowingViewHolder(
         root.setOnClickListener {
             onClickUser(uiState)
         }
-
 
 
     }

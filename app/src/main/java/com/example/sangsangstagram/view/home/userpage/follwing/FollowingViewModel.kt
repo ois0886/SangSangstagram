@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class FollowingViewModel  : ViewModel() {
+class FollowingViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UserListUiState())
+    private val _uiState = MutableStateFlow(FollowingUiState())
     val uiState = _uiState.asStateFlow()
 
     private var didBind = false
@@ -22,9 +22,9 @@ class FollowingViewModel  : ViewModel() {
         check(!didBind)
         didBind = true
         viewModelScope.launch {
-            val pagingFlow = when(type) {
+            val pagingFlow = when (type) {
                 UserListPageType.FOLLOWING -> UserRepository.getFollowingUsersPaging(userUuid)
-                UserListPageType.FOLLOWER ->  UserRepository.getFollowersPaging(userUuid)
+                UserListPageType.FOLLOWER -> UserRepository.getFollowersPaging(userUuid)
             }
             pagingFlow.cachedIn(viewModelScope)
                 .collectLatest { pagingData ->

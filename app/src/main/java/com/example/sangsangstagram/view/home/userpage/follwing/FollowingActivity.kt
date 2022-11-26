@@ -21,7 +21,7 @@ import java.io.Serializable
 
 class FollowingActivity : AppCompatActivity() {
 
-    fun <T : Serializable?> Intent.getSerializable(key: String, m_class: Class<T>): T {
+    private fun <T : Serializable?> Intent.getSerializable(key: String, m_class: Class<T>): T {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             this.getSerializableExtra(key, m_class)!!
         else
@@ -29,8 +29,9 @@ class FollowingActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityFollowingBinding
-    companion object{
-        fun getIntent(context: Context, userUuid: String, follower: UserListPageType): Intent {
+
+    companion object {
+        fun getIntent(context: Context, userUuid: String, type: UserListPageType): Intent {
             return Intent(context, FollowingActivity::class.java).apply {
                 putExtra("userUuid", userUuid)
                 putExtra("type", type)
@@ -47,12 +48,10 @@ class FollowingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val userUuid = requireNotNull(intent.getStringExtra("userUuid"))
-        val type = intent.getSerializableExtra("type",UserListPageType::class.java)
-        if (type != null) {
-            viewModel.bind(userUuid, type)
-        }
+        val type = intent.getSerializable("type", UserListPageType::class.java)
+        viewModel.bind(userUuid, type)
 
-        val adapter = FollowingAdapter(onClickUser = this::onClickUser)
+        val adapter = FollowingAdapter(onClickUser = ::onClickUser)
         initRecyclerView(adapter)
 
         lifecycleScope.launch {
@@ -79,10 +78,12 @@ class FollowingActivity : AppCompatActivity() {
 
     private fun onClickUser(uiState: UserItemUiState) {
         val intent = UserPageActivity.getIntent(this, userUuid = uiState.uuid)
+        finish()
         startActivity(intent)
+
     }
 
-    private fun updateUi(uiState: UserListUiState, adapter: FollowingAdapter) {
+    private fun updateUi(uiState: FollowingUiState, adapter: FollowingAdapter) {
         adapter.submitData(lifecycle, uiState.pagingData)
     }
 }

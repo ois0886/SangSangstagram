@@ -46,6 +46,7 @@
     <string name="fail_to_connect">연결 실패!</string>
     <string name="retry">다시!</string>
     <string name="chage_profile">프로필을 변경하였습니다.</string>
+    <string name="posting">게시물 업로드하기</string>
 
     <string-array name="image_options">
         <item>갤러리에서 선택</item>
