@@ -14,6 +14,8 @@ import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityUserPageBinding
 import com.example.sangsangstagram.domain.model.UserDetail
 import com.example.sangsangstagram.view.home.HomeActivity
+import com.example.sangsangstagram.view.home.userpage.follwing.FollowingActivity
+import com.example.sangsangstagram.view.home.userpage.follwing.UserListPageType
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 
@@ -51,6 +53,16 @@ class UserPageActivity : AppCompatActivity() {
             }
         }
 
+        binding.accountFollowerCount.setOnClickListener {
+            val intent = FollowingActivity.getIntent(this, getUserUuid(), UserListPageType.FOLLOWER)
+            startActivity(intent)
+        }
+
+        binding.accountFollowingCount.setOnClickListener {
+            val intent = FollowingActivity.getIntent(this, getUserUuid(), UserListPageType.FOLLOWING)
+            startActivity(intent)
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.userPageUiState.collect(::updateUi)
@@ -84,7 +96,10 @@ class UserPageActivity : AppCompatActivity() {
                         .circleCrop()
                         .into(accountProfileImageView)
                 }
-                accountProfileButton.text = getString(R.string.update)
+                val isMe = viewModel.userPageUiState.value.userDetail!!.isMe
+                if(isMe){
+                    accountProfileButton.text = getString(R.string.update)
+                }
                 accountName.text = userDetail.name
                 accountIntroduce.text = userDetail.introduce
                 accountPostCount.text = userDetail.postCount.toString()
