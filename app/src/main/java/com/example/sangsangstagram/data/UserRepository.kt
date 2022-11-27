@@ -49,31 +49,6 @@ object UserRepository {
         }
     }
 
-    suspend fun getFollowingList(): Result<List<FollowDto>> {
-        if (followingList != null) {
-            return Result.success(requireNotNull(followingList))
-        }
-        val currentUser = Firebase.auth.currentUser
-        require(currentUser != null)
-        val db = Firebase.firestore
-        val followerCollection = db.collection("followers")
-        val followerQuery = followerCollection.whereEqualTo("followerUuid", currentUser.uid)
-
-        try {
-            val followerSnapshot = followerQuery.get().await()
-            if (followerSnapshot.isEmpty) {
-                followingList = mutableListOf()
-                return Result.success(requireNotNull(followingList))
-            }
-            followingList = followerSnapshot.documents.map {
-                requireNotNull(it.toObject(FollowDto::class.java))
-            }.toMutableList()
-            return Result.success(requireNotNull(followingList))
-        } catch (e: Exception) {
-            return Result.failure(e)
-        }
-    }
-
     suspend fun getFollowingUsersPaging(followerUuid: String): Flow<PagingData<UserDto>> {
         val db = Firebase.firestore
         val userCollection = db.collection("users")

@@ -8,7 +8,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.sangsangstagram.data.model.PostDto
 import com.example.sangsangstagram.data.source.CommentPagingSource
-import com.example.sangsangstagram.data.source.PostPagingSource
 import com.example.sangsangstagram.domain.model.Comment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -22,7 +21,7 @@ object CommentRepository {
 
     const val PAGE_SIZE = 20
 
-    suspend fun getComment(): Flow<PagingData<Comment>> {
+    suspend fun getComment(postUuid: String): Flow<PagingData<Comment>> {
         try {
             val currentUser = Firebase.auth.currentUser
             require(currentUser != null)
@@ -44,7 +43,7 @@ object CommentRepository {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun uploadPost(
+    suspend fun uploadComment(
         content: String,
         imageUri: Uri
     ): Result<Unit> {
@@ -78,7 +77,7 @@ object CommentRepository {
         }
     }
 
-    suspend fun deletePost(postUuid: String): Result<Unit> {
+    suspend fun deleteComment(postUuid: String): Result<Unit> {
         val db = Firebase.firestore
 
         return try {
@@ -89,7 +88,7 @@ object CommentRepository {
         }
     }
 
-    suspend fun editPost(
+    suspend fun editComment(
         uuid: String,
         content: String,
         imageUri: Uri
@@ -104,7 +103,6 @@ object CommentRepository {
         val map = mutableMapOf<String, Any>()
 
         map["content"] = content
-        map["imageUrl"] = imageFileName
 
         try {
             imageRef.putFile(imageUri).await()

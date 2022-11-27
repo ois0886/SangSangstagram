@@ -23,7 +23,8 @@ class PostViewHolder(
     private val onClickUser: (PostItemUiState) -> Unit,
     private val onClickLikeButton: (PostItemUiState) -> Unit,
     private val onClickDeleteButton: (PostItemUiState) -> Unit,
-    private val onClickEditButton: (PostItemUiState) -> Unit
+    private val onClickEditButton: (PostItemUiState) -> Unit,
+    private val onClickBookMarkButton: (PostItemUiState) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val storageReference = Firebase.storage.reference
@@ -111,6 +112,21 @@ class PostViewHolder(
             onClickLikeButton(uiState)
         }
 
+        BookmarkButton.isChecked = uiState.meLiked
+        if (BookmarkButton.isChecked) {
+            BookmarkButton.setBackgroundDrawable(
+                root.context.getDrawable(
+                    R.drawable.ic_baseline_bookmark_24
+                )
+            )
+        } else {
+            BookmarkButton.setBackgroundDrawable(
+                root.context.getDrawable(
+                    R.drawable.ic_baseline_bookmark_border_24
+                )
+            )
+        }
+
         BookmarkButton.setOnClickListener {
             val isChecked = (it as ToggleButton).isChecked
             if (isChecked) {
@@ -128,6 +144,7 @@ class PostViewHolder(
                 )
                 Snackbar.make(binding.root, "북마크 해제!", Snackbar.LENGTH_LONG).show()
             }
+            onClickBookMarkButton(uiState)
         }
 
         likeCount.text = root.context.getString(R.string.likeCount, uiState.likeCount)
