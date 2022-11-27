@@ -5,5 +5,6 @@ data class Comment(
     val writerUuid: String,
     val writerName: String,
     val writerProfileImageUrl: String?,
-    val content: String
+    val content: String,
+    val isMine: Boolean
 )

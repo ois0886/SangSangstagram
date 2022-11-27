@@ -13,14 +13,25 @@ import kotlinx.coroutines.launch
 
 class UserPageViewModel() : ViewModel() {
 
+    fun bindProfile(targetUuid: String) {
+        loadPostByUser(targetUuid)
+        profileUpdate(targetUuid)
+    }
+
     private val _userPageUiState = MutableStateFlow(UserPageUiState())
     val userPageUiState: StateFlow<UserPageUiState> = _userPageUiState.asStateFlow()
 
-    fun profileUpdate(userUuid: String) {
+    private fun profileUpdate(userUuid: String) {
         viewModelScope.launch {
             val result = UserRepository.getUserDetail(userUuid)
             if (result.isSuccess) {
                 _userPageUiState.update { it.copy(userDetail = result.getOrNull()!!) }
+                PostRepository.getPostDetailsByUser(userUuid).cachedIn(viewModelScope)
+                    .collectLatest { pagingData ->
+                        _userPagePostUiState.update { userPagePostUiState ->
+                            userPagePostUiState.copy(pagingData = pagingData.map { it.toUiState() })
+                        }
+                    }
             }
         }
     }
