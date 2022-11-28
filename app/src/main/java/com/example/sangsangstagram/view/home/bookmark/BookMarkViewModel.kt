@@ -1,4 +1,4 @@
-package com.example.sangsangstagram.view.home.post
+package com.example.sangsangstagram.view.home.bookmark
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,13 +8,16 @@ import androidx.paging.map
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.data.AuthRepository
 import com.example.sangsangstagram.data.PostRepository
+import com.example.sangsangstagram.view.home.post.PostItemUiState
+import com.example.sangsangstagram.view.home.post.PostListUiState
+import com.example.sangsangstagram.view.home.post.toUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PostViewModel : ViewModel() {
+class BookMarkViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(
         PostListUiState(currentUserUuid = requireNotNull(AuthRepository.currentUserUuid))
@@ -24,7 +27,6 @@ class PostViewModel : ViewModel() {
     private var bounded = false
 
     fun bind(
-        targetUserUuid: String?,
         initPostPagingData: PagingData<PostItemUiState>?
     ) {
         if (bounded) return
@@ -33,11 +35,7 @@ class PostViewModel : ViewModel() {
             _uiState.update { it.copy(pagingData = initPostPagingData) }
         }
         viewModelScope.launch(Dispatchers.IO) {
-            val pagingFlow = if (targetUserUuid != null) {
-                PostRepository.getPostDetailsByUser(targetUserUuid)
-            } else {
-                PostRepository.getHomeFeeds()
-            }
+            val pagingFlow = PostRepository.getBookMarkFeeds()
             pagingFlow.cachedIn(viewModelScope)
                 .collect { pagingData ->
                     _uiState.update { uiState ->

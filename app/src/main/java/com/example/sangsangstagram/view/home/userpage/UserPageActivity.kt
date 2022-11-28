@@ -8,13 +8,22 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.PagingData
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.ActivityUserPageBinding
 import com.example.sangsangstagram.domain.model.UserDetail
 import com.example.sangsangstagram.view.home.HomeActivity
+import com.example.sangsangstagram.view.home.post.PagingLoadStateAdapter
+import com.example.sangsangstagram.view.home.post.PostItemUiState
+import com.example.sangsangstagram.view.home.post.registerObserverForScrollToTop
+import com.example.sangsangstagram.view.home.post.setListeners
 import com.example.sangsangstagram.view.home.userpage.follwing.FollowingActivity
+import com.example.sangsangstagram.view.home.userpage.follwing.FollowingAdapter
+import com.example.sangsangstagram.view.home.userpage.follwing.UserItemUiState
 import com.example.sangsangstagram.view.home.userpage.follwing.UserListPageType
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
@@ -41,7 +50,11 @@ class UserPageActivity : AppCompatActivity() {
         binding = ActivityUserPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.profileUpdate(getUserUuid())
+        viewModel.bindProfile(getUserUuid())
+
+        val adapter = UserPagePostAdapter(onClickPost = this::onClickPost)
+
+        initGridRecyclerView(adapter)
 
         binding.accountProfileButton.setOnClickListener {
             val isMe = viewModel.userPageUiState.value.userDetail!!.isMe
@@ -87,6 +100,14 @@ class UserPageActivity : AppCompatActivity() {
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.userPagePostUiState.collect { postUiState ->
+                    updatePostUi(postUiState, adapter)
+                }
+            }
+        }
+
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
@@ -96,6 +117,21 @@ class UserPageActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    private fun initGridRecyclerView(adapter: UserPagePostAdapter) = with(binding) {
+        binding.apply {
+            recyclerView.adapter = adapter.withLoadStateFooter(
+                PagingLoadStateAdapter { adapter.retry() }
+            )
+            recyclerView.layoutManager = GridLayoutManager(this@UserPageActivity, 3)
+
+            loadState.setListeners(adapter, swipeRefreshLayout)
+            adapter.registerObserverForScrollToTop(recyclerView, whenItemRangeMoved = true)
+            adapter.refresh()
+        }
+
+    }
+
 
     private fun updateUi(uiState: UserPageUiState) {
         val storage: FirebaseStorage =
@@ -133,6 +169,13 @@ class UserPageActivity : AppCompatActivity() {
             }
         }
         viewModel.userMessageShown()
+    }
+
+    private fun updatePostUi(uiState: UserPagePostUiState, adapter: UserPagePostAdapter) {
+        adapter.submitData(lifecycle, uiState.pagingData)
+    }
+
+    private fun onClickPost(uiState: PostItemUiState) {
     }
 
     private fun startInfoUpdateUi(userDetail: UserDetail) {

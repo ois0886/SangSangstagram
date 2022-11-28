@@ -16,6 +16,7 @@ import com.example.sangsangstagram.R
 import com.example.sangsangstagram.databinding.FragmentPostBinding
 import com.example.sangsangstagram.view.RefreshStateContract
 import com.example.sangsangstagram.view.home.BaseFragment
+import com.example.sangsangstagram.view.home.post.comment.CommentActivity
 import com.example.sangsangstagram.view.home.post.postcreate.PostCreateActivity
 import com.example.sangsangstagram.view.home.userpage.UserPageActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -42,7 +43,8 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
             onClickLikeButton = ::onClickLikeButton,
             onClickUser = ::onClickUser,
             onClickDeleteButton = ::onClickDeleteButton,
-            onClickEditButton = ::onClickEditButton
+            onClickEditButton = ::onClickEditButton,
+            onClickBookMarkButton = ::onClickBookMarkButton
         )
 
         initRecyclerView(adapter)
@@ -90,6 +92,20 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
     private fun onClickLikeButton(uiState: PostItemUiState) {
         viewModel.toggleLike(postUuid = uiState.uuid)
         viewModel.userMessageShown()
+    }
+
+    private fun onClickCommentButton(uiState: PostItemUiState) {
+        startCommentActivity(uiState.uuid)
+    }
+
+
+    private fun onClickBookMarkButton(uiState: PostItemUiState) {
+        viewModel.toggleBookMark(postUuid = uiState.uuid)
+    }
+
+    private fun startCommentActivity(PostUuid: String) {
+        val intent = CommentActivity.getIntent(requireContext())
+        launcher?.launch(intent)
     }
 
     private fun startProfileActivity(userUuid: String) {

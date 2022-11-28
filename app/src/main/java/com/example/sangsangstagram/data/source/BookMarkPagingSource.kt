@@ -4,21 +4,21 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.example.sangsangstagram.data.PostRepository
 import com.example.sangsangstagram.data.model.BookMarkDto
 import com.example.sangsangstagram.data.model.LikeDto
 import com.example.sangsangstagram.data.model.PostDto
 import com.example.sangsangstagram.data.model.UserDto
 import com.example.sangsangstagram.domain.model.Post
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
-class PostPagingSource(
-    private val getWriterUuids: suspend () -> List<String>
+class BookMarkPagingSource(
+    private val getPostUuids: suspend () -> List<String>
 ) : PagingSource<QuerySnapshot, Post>() {
 
     private val currentUserId = Firebase.auth.currentUser!!.uid
@@ -38,7 +38,7 @@ class PostPagingSource(
         val postCollection = db.collection("posts")
 
         val queryPostsByUser = postCollection
-            .whereIn("writerUuid", getWriterUuids())
+            .whereIn("uuid", getPostUuids())
             .orderBy("dateTime", Query.Direction.DESCENDING)
             .limit(PostRepository.PAGE_SIZE.toLong())
 

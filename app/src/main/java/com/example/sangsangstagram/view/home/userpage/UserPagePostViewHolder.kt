@@ -16,10 +16,12 @@ class UserPagePostViewHolder(
 
     fun bind(uiState: PostItemUiState) = with(binding) {
         val glide = Glide.with(root)
+        val reference = uiState.imageUrl.let { storageReference.child(it) }
 
-        glide.load(storageReference.child(uiState.imageUrl))
-            .override(200, 200)
-            .into(profilePostImage)
+        reference.downloadUrl.addOnSuccessListener { uri ->
+            glide.load(uri)
+                .into(profilePostImage)
+        }
 
         root.setOnClickListener {
             onClickPost(uiState)

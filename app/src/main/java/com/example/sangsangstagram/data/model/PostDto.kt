@@ -7,5 +7,5 @@ data class PostDto(
     val writerUuid: String = "",
     val content: String = "",
     val imageUrl: String = "",
-    val dateTime: Date = Date(),
+    val dateTime: Date = Date()
 )
