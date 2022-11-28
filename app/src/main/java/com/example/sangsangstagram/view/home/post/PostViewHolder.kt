@@ -69,6 +69,8 @@ class PostViewHolder(
             onClickDeleteButton(uiState)
         }
 
+        CommentButton.isVisible = false
+
         CommentButton.setOnClickListener {
             onClickCommentButton(uiState)
         }
