@@ -44,7 +44,8 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
             onClickUser = ::onClickUser,
             onClickDeleteButton = ::onClickDeleteButton,
             onClickEditButton = ::onClickEditButton,
-            onClickBookMarkButton = ::onClickBookMarkButton
+            onClickBookMarkButton = ::onClickBookMarkButton,
+            onClickCommentButton = ::onClickCommentButton
         )
 
         initRecyclerView(adapter)
@@ -95,7 +96,7 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
     }
 
     private fun onClickCommentButton(uiState: PostItemUiState) {
-        startCommentActivity(uiState.uuid)
+        startCommentActivity(uiState)
     }
 
 
@@ -103,8 +104,8 @@ class PostFragment : BaseFragment<FragmentPostBinding>() {
         viewModel.toggleBookMark(postUuid = uiState.uuid)
     }
 
-    private fun startCommentActivity(PostUuid: String) {
-        val intent = CommentActivity.getIntent(requireContext())
+    private fun startCommentActivity(uiState: PostItemUiState) {
+        val intent = CommentActivity.getIntent(requireContext(), uiState.uuid)
         launcher?.launch(intent)
     }
 

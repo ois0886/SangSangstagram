@@ -16,7 +16,8 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
 class CommentPagingSource(
-    private val getPostUuids: suspend () -> List<String>
+    private val getWriterUuids: suspend () -> List<String>,
+    private val postUuid: suspend () -> List<String>
 ) : PagingSource<QuerySnapshot, Comment>() {
 
     private val currentUserId = Firebase.auth.currentUser!!.uid
@@ -32,8 +33,9 @@ class CommentPagingSource(
     ): LoadResult<QuerySnapshot, Comment> {
         val db = Firebase.firestore
         val commentCollection = db.collection("comments")
+
         val queryCommentByPost = commentCollection
-            .whereIn("postUuid", getPostUuids())
+            .whereIn("postUuid", postUuid())
             .orderBy("dataTime", Query.Direction.DESCENDING)
             .limit(CommentRepository.PAGE_SIZE.toLong())
 
@@ -59,7 +61,8 @@ class CommentPagingSource(
                     writerName = writer.name,
                     writerProfileImageUrl = writer.profileImageUrl,
                     content = commentDto.content,
-                    isMine = commentDto.writerUuid == currentUserId
+                    isMine = commentDto.writerUuid == currentUserId,
+                    time = commentDto.dateTime.toString()
                 )
             }
             LoadResult.Page(

@@ -26,11 +26,11 @@ object PostRepository {
 
     const val PAGE_SIZE = 20
 
-    private var bookMarkList: MutableList<BookMarkDto>? = null
-
     private suspend fun getBookMarkList(): Result<List<BookMarkDto>> {
+        var bookMarkList: MutableList<BookMarkDto>? = null
+
         if (bookMarkList != null) {
-            return Result.success(requireNotNull(bookMarkList))
+            return Result.success(bookMarkList)
         }
         val currentUser = Firebase.auth.currentUser
         require(currentUser != null)
@@ -42,12 +42,12 @@ object PostRepository {
             val bookMarkSnapshot = bookMarkQuery.get().await()
             if (bookMarkSnapshot.isEmpty) {
                 bookMarkList = mutableListOf()
-                return Result.success(requireNotNull(bookMarkList))
+                return Result.success(bookMarkList)
             }
             bookMarkList = bookMarkSnapshot.documents.map {
                 requireNotNull(it.toObject(BookMarkDto::class.java))
             }.toMutableList()
-            return Result.success(requireNotNull(bookMarkList))
+            return Result.success(bookMarkList)
         } catch (e: Exception) {
             return Result.failure(e)
         }

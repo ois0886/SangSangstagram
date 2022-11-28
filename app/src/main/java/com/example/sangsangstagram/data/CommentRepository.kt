@@ -1,18 +1,16 @@
 package com.example.sangsangstagram.data
 
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.sangsangstagram.data.model.PostDto
+import com.example.sangsangstagram.data.model.CommentDto
 import com.example.sangsangstagram.data.source.CommentPagingSource
 import com.example.sangsangstagram.domain.model.Comment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import java.util.*
@@ -27,14 +25,14 @@ object CommentRepository {
             require(currentUser != null)
 
             return Pager(PagingConfig(pageSize = PAGE_SIZE)) {
-                CommentPagingSource(getPostUuids = {
+                CommentPagingSource(getWriterUuids = {
                     val result = UserRepository.getAllUserList()
                     if (result.isSuccess) {
                         result.getOrNull()!!.map { it.uuid }.toMutableList()
                     } else {
                         throw IllegalStateException("회원 정보 얻기 실패")
                     }
-                })
+                }, { listOf(postUuid) })
             }.flow
         } catch (e: Exception) {
             e.printStackTrace()
@@ -45,43 +43,34 @@ object CommentRepository {
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun uploadComment(
         content: String,
-        imageUri: Uri
+        postUuid: String
     ): Result<Unit> {
         val currentUser = Firebase.auth.currentUser
         require(currentUser != null)
         val db = Firebase.firestore
-        val storageRef = Firebase.storage.reference
-        val postCollection = db.collection("posts")
-        val imageFileName: String = UUID.randomUUID().toString() + ".png"
-        val imageRef = storageRef.child(imageFileName)
-        val postUuid = UUID.randomUUID().toString()
-
-        try {
-            imageRef.putFile(imageUri).await()
-        } catch (e: Exception) {
-            return Result.failure(e)
-        }
+        val commentCollection = db.collection("comments")
+        val commentsUuid = UUID.randomUUID().toString()
 
         return try {
-            val postDto = PostDto(
-                uuid = postUuid,
+            val commentDto = CommentDto(
+                uuid = commentsUuid,
+                postUuid = postUuid,
                 writerUuid = currentUser.uid,
                 content = content,
-                imageUrl = imageFileName,
                 dateTime = Date()
             )
-            postCollection.document(postUuid).set(postDto).await()
+            commentCollection.document(commentsUuid).set(commentDto).await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    suspend fun deleteComment(postUuid: String): Result<Unit> {
+    suspend fun deleteComment(commentsUuid: String): Result<Unit> {
         val db = Firebase.firestore
 
         return try {
-            db.collection("posts").document(postUuid).delete().await()
+            db.collection("comments").document(commentsUuid).delete().await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -90,28 +79,18 @@ object CommentRepository {
 
     suspend fun editComment(
         uuid: String,
-        content: String,
-        imageUri: Uri
+        content: String
     ): Result<Unit> {
         val currentUser = Firebase.auth.currentUser
         require(currentUser != null)
         val db = Firebase.firestore
-        val storageRef = Firebase.storage.reference
-        val postCollection = db.collection("posts")
-        val imageFileName: String = UUID.randomUUID().toString() + ".png"
-        val imageRef = storageRef.child(imageFileName)
+        val commentCollection = db.collection("comments")
         val map = mutableMapOf<String, Any>()
 
         map["content"] = content
 
-        try {
-            imageRef.putFile(imageUri).await()
-        } catch (e: Exception) {
-            return Result.failure(e)
-        }
-
         return try {
-            postCollection.document(uuid).update(map).await()
+            commentCollection.document(uuid).update(map).await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

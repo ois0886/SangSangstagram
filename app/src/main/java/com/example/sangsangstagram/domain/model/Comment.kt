@@ -6,5 +6,6 @@ data class Comment(
     val writerName: String,
     val writerProfileImageUrl: String?,
     val content: String,
-    val isMine: Boolean
+    val isMine: Boolean,
+    val time: String
 )

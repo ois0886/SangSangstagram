@@ -1,4 +1,4 @@
-package com.example.sangsangstagram.view.home.post
+package com.example.sangsangstagram.view.home.bookmark
 
 import android.annotation.SuppressLint
 import android.graphics.Typeface
@@ -16,21 +16,19 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-
-class PostViewHolder(
+class BookMarkVIewHolder(
     private val binding: ItemPostBinding,
-    private val onClickUser: (PostItemUiState) -> Unit,
-    private val onClickLikeButton: (PostItemUiState) -> Unit,
-    private val onClickDeleteButton: (PostItemUiState) -> Unit,
-    private val onClickEditButton: (PostItemUiState) -> Unit,
-    private val onClickBookMarkButton: (PostItemUiState) -> Unit,
-    private val onClickCommentButton: (PostItemUiState) -> Unit
+    private val onClickUser: (BookMarkItemUiState) -> Unit,
+    private val onClickLikeButton: (BookMarkItemUiState) -> Unit,
+    private val onClickDeleteButton: (BookMarkItemUiState) -> Unit,
+    private val onClickEditButton: (BookMarkItemUiState) -> Unit,
+    private val onClickCommentButton: (BookMarkItemUiState) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val storageReference = Firebase.storage.reference
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    fun bind(uiState: PostItemUiState) = with(binding) {
+    fun bind(uiState: BookMarkItemUiState) = with(binding) {
         val glide = Glide.with(root)
 
         val writerReference = uiState.writerProfileImageUrl?.let { storageReference.child(it) }
@@ -51,6 +49,10 @@ class PostViewHolder(
                 .into(profileImage)
         }
 
+        CommentButton.setOnClickListener {
+            onClickCommentButton(uiState)
+        }
+
         userName.text = uiState.writerName
         userName.setOnClickListener {
             onClickUser(uiState)
@@ -67,10 +69,6 @@ class PostViewHolder(
         deleteButton.isVisible = uiState.isMine
         deleteButton.setOnClickListener {
             onClickDeleteButton(uiState)
-        }
-
-        CommentButton.setOnClickListener {
-            onClickCommentButton(uiState)
         }
 
         postReference.downloadUrl.addOnSuccessListener { uri ->
@@ -116,40 +114,7 @@ class PostViewHolder(
             onClickLikeButton(uiState)
         }
 
-        BookmarkButton.isChecked = uiState.bookMarkChecked
-        if (BookmarkButton.isChecked) {
-            BookmarkButton.setBackgroundDrawable(
-                root.context.getDrawable(
-                    R.drawable.ic_baseline_bookmark_24
-                )
-            )
-        } else {
-            BookmarkButton.setBackgroundDrawable(
-                root.context.getDrawable(
-                    R.drawable.ic_baseline_bookmark_border_24
-                )
-            )
-        }
-
-        BookmarkButton.setOnClickListener {
-            val isChecked = (it as ToggleButton).isChecked
-            if (isChecked) {
-                BookmarkButton.setBackgroundDrawable(
-                    root.context.getDrawable(
-                        R.drawable.ic_baseline_bookmark_24
-                    )
-                )
-                Snackbar.make(binding.root, "북마크 등록!", Snackbar.LENGTH_LONG).show()
-            } else {
-                BookmarkButton.setBackgroundDrawable(
-                    root.context.getDrawable(
-                        R.drawable.ic_baseline_bookmark_border_24
-                    )
-                )
-                Snackbar.make(binding.root, "북마크 해제!", Snackbar.LENGTH_LONG).show()
-            }
-            onClickBookMarkButton(uiState)
-        }
+        BookmarkButton.setBackgroundDrawable(root.context.getDrawable(R.drawable.ic_baseline_bookmark_24))
 
         likeCount.text = root.context.getString(R.string.likeCount, uiState.likeCount)
 

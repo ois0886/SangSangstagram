@@ -11,7 +11,8 @@ class PostAdapter(
     private val onClickLikeButton: (PostItemUiState) -> Unit,
     private val onClickDeleteButton: (PostItemUiState) -> Unit,
     private val onClickEditButton: (PostItemUiState) -> Unit,
-    private val onClickBookMarkButton: (PostItemUiState) -> Unit
+    private val onClickBookMarkButton: (PostItemUiState) -> Unit,
+    private val onClickCommentButton: (PostItemUiState) -> Unit
 ) : PagingDataAdapter<PostItemUiState, PostViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -23,7 +24,8 @@ class PostAdapter(
             onClickUser = onClickUser,
             onClickDeleteButton = onClickDeleteButton,
             onClickEditButton = onClickEditButton,
-            onClickBookMarkButton = onClickBookMarkButton
+            onClickBookMarkButton = onClickBookMarkButton,
+            onClickCommentButton = onClickCommentButton
         )
     }
 

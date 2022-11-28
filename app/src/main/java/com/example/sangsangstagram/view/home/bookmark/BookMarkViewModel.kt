@@ -8,9 +8,6 @@ import androidx.paging.map
 import com.example.sangsangstagram.R
 import com.example.sangsangstagram.data.AuthRepository
 import com.example.sangsangstagram.data.PostRepository
-import com.example.sangsangstagram.view.home.post.PostItemUiState
-import com.example.sangsangstagram.view.home.post.PostListUiState
-import com.example.sangsangstagram.view.home.post.toUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,19 +17,19 @@ import kotlinx.coroutines.launch
 class BookMarkViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(
-        PostListUiState(currentUserUuid = requireNotNull(AuthRepository.currentUserUuid))
+        BookMarkUiState(currentUserUuid = requireNotNull(AuthRepository.currentUserUuid))
     )
     val uiState = _uiState.asStateFlow()
 
     private var bounded = false
 
     fun bind(
-        initPostPagingData: PagingData<PostItemUiState>?
+        initBookMarkPagingData: PagingData<BookMarkItemUiState>?
     ) {
         if (bounded) return
         bounded = true
-        if (initPostPagingData != null) {
-            _uiState.update { it.copy(pagingData = initPostPagingData) }
+        if (initBookMarkPagingData != null) {
+            _uiState.update { it.copy(pagingData = initBookMarkPagingData) }
         }
         viewModelScope.launch(Dispatchers.IO) {
             val pagingFlow = PostRepository.getBookMarkFeeds()
@@ -45,15 +42,6 @@ class BookMarkViewModel : ViewModel() {
         }
     }
 
-    fun toggleBookMark(postUuid: String) {
-        viewModelScope.launch {
-            val result = PostRepository.toggleBookMark(postUuid)
-            if (result.isFailure) {
-                _uiState.update { it.copy(userMessage = R.string.failed) }
-            }
-        }
-    }
-
     fun toggleLike(postUuid: String) {
         viewModelScope.launch {
             val result = PostRepository.toggleLike(postUuid)
@@ -63,7 +51,7 @@ class BookMarkViewModel : ViewModel() {
         }
     }
 
-    fun deleteSelectedPost(uiState: PostItemUiState) {
+    fun deleteSelectedPost(uiState: BookMarkItemUiState) {
         viewModelScope.launch {
             check(true)
             val result = PostRepository.deletePost(uiState.uuid)

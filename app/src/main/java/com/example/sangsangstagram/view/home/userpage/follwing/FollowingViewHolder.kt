@@ -31,7 +31,11 @@ class FollowingViewHolder(
         name.text = uiState.name
         introduce.text = uiState.introduce
 
-        root.setOnClickListener {
+        name.setOnClickListener {
+            onClickUser(uiState)
+        }
+
+        profileImage.setOnClickListener {
             onClickUser(uiState)
         }
     }

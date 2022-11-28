@@ -33,19 +33,19 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
     private val viewModel: BookMarkViewModel by activityViewModels()
 
     private var launcher: ActivityResultLauncher<Intent>? = null
-    private val initPostPagingData: PagingData<PostItemUiState>? = null
+    private val initBookMarkPagingData: PagingData<BookMarkItemUiState>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.bind(initPostPagingData)
+        viewModel.bind(initBookMarkPagingData)
 
-        val adapter = PostAdapter(
+        val adapter = BookMarkAdapter(
             onClickLikeButton = ::onClickLikeButton,
             onClickUser = ::onClickUser,
             onClickDeleteButton = ::onClickDeleteButton,
             onClickEditButton = ::onClickEditButton,
-            onClickBookMarkButton = ::onClickBookMarkButton
+            onClickCommentButton = ::onClickCommentButton
         )
 
         initRecyclerView(adapter)
@@ -66,7 +66,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
         }
     }
 
-    private fun initRecyclerView(adapter: PostAdapter) = with(binding) {
+    private fun initRecyclerView(adapter: BookMarkAdapter) = with(binding) {
         recyclerView.adapter = adapter.withLoadStateFooter(
             PagingLoadStateAdapter { adapter.retry() }
         )
@@ -77,7 +77,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
         adapter.refresh()
     }
 
-    private fun updateUi(uiState: PostListUiState, adapter: PostAdapter) {
+    private fun updateUi(uiState: BookMarkUiState, adapter: BookMarkAdapter) {
         adapter.submitData(viewLifecycleOwner.lifecycle, uiState.pagingData)
         if (uiState.userMessage != null) {
             viewModel.userMessageShown()
@@ -85,27 +85,22 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
         }
     }
 
-    private fun onClickUser(uiState: PostItemUiState) {
+    private fun onClickUser(uiState: BookMarkItemUiState) {
         startProfileActivity(uiState.writerUuid)
         viewModel.userMessageShown()
     }
 
-    private fun onClickLikeButton(uiState: PostItemUiState) {
+    private fun onClickLikeButton(uiState: BookMarkItemUiState) {
         viewModel.toggleLike(postUuid = uiState.uuid)
         viewModel.userMessageShown()
     }
 
-    private fun onClickCommentButton(uiState: PostItemUiState) {
-        startCommentActivity(uiState.uuid)
+    private fun onClickCommentButton(uiState: BookMarkItemUiState) {
+        startCommentActivity(uiState)
     }
 
-
-    private fun onClickBookMarkButton(uiState: PostItemUiState) {
-        viewModel.toggleBookMark(postUuid = uiState.uuid)
-    }
-
-    private fun startCommentActivity(PostUuid: String) {
-        val intent = CommentActivity.getIntent(requireContext())
+    private fun startCommentActivity(uiState: BookMarkItemUiState) {
+        val intent = CommentActivity.getIntent(requireContext(), uiState.uuid)
         launcher?.launch(intent)
     }
 
@@ -118,7 +113,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 
-    private fun onClickDeleteButton(uiState: PostItemUiState) {
+    private fun onClickDeleteButton(uiState: BookMarkItemUiState) {
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(getString(R.string.delete_post))
             setMessage(R.string.delete_message)
@@ -129,18 +124,25 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
         }.show()
     }
 
-    private fun onClickEditButton(uiState: PostItemUiState) {
+    private fun onClickEditButton(uiState: BookMarkItemUiState) {
         val postContent = uiState.content
         val postImage = uiState.imageUrl
         val postUuid = uiState.uuid
 
-        val intent = PostCreateActivity.getIntent(
-            requireContext(),
-            postContent = postContent,
-            postImage = postImage,
-            postUuid = postUuid
-        )
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(getString(R.string.delete_post))
+            setMessage(R.string.edit_post)
+            setNegativeButton(R.string.cancel) { _, _ -> }
+            setPositiveButton(R.string.edit) { _, _ ->
+                val intent = PostCreateActivity.getIntent(
+                    requireContext(),
+                    postContent = postContent,
+                    postImage = postImage,
+                    postUuid = postUuid
+                )
 
-        launcher?.launch(intent)
+                launcher?.launch(intent)
+            }
+        }.show()
     }
 }
