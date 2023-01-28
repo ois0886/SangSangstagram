@@ -40,11 +40,11 @@
         <entry key="app/src/main/res/layout/fragment_chatting_room.xml" value="0.24954710144927536" />
         <entry key="app/src/main/res/layout/fragment_followe.xml" value="0.2658514492753623" />
         <entry key="app/src/main/res/layout/fragment_my_page.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/fragment_post.xml" value="0.24954710144927536" />
+        <entry key="app/src/main/res/layout/fragment_post.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_user_post.xml" value="0.22873022659256093" />
         <entry key="app/src/main/res/layout/item_chattingroom.xml" value="0.165" />
         <entry key="app/src/main/res/layout/item_comment.xml" value="0.45" />
-        <entry key="app/src/main/res/layout/item_load_state.xml" value="0.13551165146909827" />
+        <entry key="app/src/main/res/layout/item_load_state.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_profile_post.xml" value="0.11178437108232345" />
         <entry key="app/src/main/res/layout/item_user.xml" value="0.2658514492753623" />
