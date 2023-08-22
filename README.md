@@ -2,8 +2,6 @@
 SNS App "상상스타그램"<br>
 3학년 2학기 고급 모바일 프로그래밍 수업에서 SNS 만들기를 주제로 한 팀프로젝트 입니다.<br>
 
-[개발블로그](https://superohinsung.tistory.com/category/Main%20Project/SangSangStagram)
-
 ## Develop Period
 2022.11 ~ 2022.12 (1개월)
 
