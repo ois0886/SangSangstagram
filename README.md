@@ -3,7 +3,7 @@ SNS App "상상스타그램"<br>
 3학년 2학기 고급 모바일 프로그래밍 수업에서 SNS 만들기를 주제로 한 팀프로젝트 입니다.<br>
 
 ## Develop Period
-2022.11 ~ 2022.12 (1개월)
+2022.11 ~ 2022.12 (1개월), 2023.09(1개월)
 
 ## Member
 1891065 오인성<br>
@@ -17,6 +17,8 @@ SNS App "상상스타그램"<br>
 - ViewModel
 - Glide
 - Firebase ( Auth, Storage, Database )
+
+## [Blog](https://superohinsung.tistory.com/category/Main%20Project/%EC%83%81%EC%83%81%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8)
 
 ## APP Screen Shot
 
