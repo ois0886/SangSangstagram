@@ -18,7 +18,8 @@ SNS App "상상스타그램"<br>
 - Glide
 - Firebase ( Auth, Storage, Database )
 
-## [Blog](https://superohinsung.tistory.com/category/Main%20Project/%EC%83%81%EC%83%81%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8)
+## Blog
+[개발 블로그로 가기](https://superohinsung.tistory.com/category/Main%20Project/%EC%83%81%EC%83%81%EC%8A%A4%ED%83%80%EA%B7%B8%EB%9E%A8)
 
 ## APP Screen Shot
 
@@ -35,4 +36,3 @@ SNS App "상상스타그램"<br>
 | <img width="222" alt="스크린샷 2023-08-22 오후 2 38 26" src="https://github.com/ois0886/SangSangstagram/assets/58154638/885ec69f-b9bb-4efc-8768-029d2b1f323b"> | <img width="223" alt="스크린샷 2023-08-22 오후 2 38 52" src="https://github.com/ois0886/SangSangstagram/assets/58154638/b0bc030c-5a3d-4ed8-bdcf-fffe362b73c7"> |
 
 ## Architecture
-![B팀](https://user-images.githubusercontent.com/58154638/229971605-288f3466-a0e4-4c09-aa8b-0b9fc0d1096e.jpg)
