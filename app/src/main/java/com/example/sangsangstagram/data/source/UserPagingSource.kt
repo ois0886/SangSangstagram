@@ -5,9 +5,6 @@ import androidx.paging.PagingState
 import com.example.sangsangstagram.data.UserRepository
 import com.example.sangsangstagram.data.model.UserDto
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.tasks.await
 
 class UserPagingSource(
