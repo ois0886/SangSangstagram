@@ -1,20 +1,18 @@
 package com.example.sangsangstagram.data.source
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.example.sangsangstagram.data.PostRepository
 import com.example.sangsangstagram.data.model.BookMarkDto
 import com.example.sangsangstagram.data.model.LikeDto
 import com.example.sangsangstagram.data.model.PostDto
 import com.example.sangsangstagram.data.model.UserDto
 import com.example.sangsangstagram.domain.model.Post
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
 class PostPagingSource(
@@ -23,68 +21,66 @@ class PostPagingSource(
 
     private val currentUserId = Firebase.auth.currentUser!!.uid
     private val likeCollection = Firebase.firestore.collection("likes")
-    private val userCollection = Firebase.firestore.collection("users")
     private val bookMarkCollection = Firebase.firestore.collection("bookmarks")
+    private val userCollection = Firebase.firestore.collection("users")
+    private val queryPosts =
+        Firebase.firestore.collection("posts").orderBy("dateTime", Query.Direction.DESCENDING)
+            .limit(PostRepository.PAGE_SIZE.toLong())
 
     override fun getRefreshKey(state: PagingState<QuerySnapshot, Post>): QuerySnapshot? {
         return null
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun load(
         params: LoadParams<QuerySnapshot>
     ): LoadResult<QuerySnapshot, Post> {
-        val db = Firebase.firestore
-        val postCollection = db.collection("posts")
-
-        val queryPostsByUser = postCollection
-            .whereIn("writerUuid", getWriterUuids())
-            .orderBy("dateTime", Query.Direction.DESCENDING)
-            .limit(PostRepository.PAGE_SIZE.toLong())
+        val writerUuidList = getWriterUuids()
 
         return try {
-            val currentPage = params.key ?: queryPostsByUser.get().await()
+            val currentPage = params.key ?: queryPosts.get().await()
             if (currentPage.isEmpty) {
                 return LoadResult.Page(
-                    data = emptyList(),
-                    prevKey = null,
-                    nextKey = null
+                    data = emptyList(), prevKey = null, nextKey = null
                 )
             }
             val lastVisiblePost = currentPage.documents[currentPage.size() - 1]
-            val nextPage = queryPostsByUser.startAfter(lastVisiblePost).get().await()
+            val nextPage = queryPosts.startAfter(lastVisiblePost).get().await()
             val postDtos = currentPage.toObjects(PostDto::class.java)
-            val posts = postDtos.map { postDto ->
-                val likes = likeCollection.whereEqualTo("postUuid", postDto.uuid).get().await()
-                    .toObjects(LikeDto::class.java)
-                val writer = userCollection.document(postDto.writerUuid).get().await()
-                    .toObject(UserDto::class.java)
-                val meLiked = likes.any { like -> like.userUuid == currentUserId }
-                val bookmarks =
-                    bookMarkCollection.whereEqualTo("postUuid", postDto.uuid).get().await()
-                        .toObjects(BookMarkDto::class.java)
-                val meBookmarked =
-                    bookmarks.any { bookmark -> bookmark.userUuid == currentUserId }
+            val posts = postDtos
+                // TODO(민성): 쓸데없이 모든 포스트를 요청하고나서 필터링을 하고 있다. 보이지 않을 게시물까지 로드하여 낭비가
+                //  크기 때문에 차라리 한 번에 모든 게시글을 가져온 뒤 차례로 보이는 게 나을 수 있다.
+                .filter { postDto ->
+                    writerUuidList.contains(postDto.writerUuid)
+                }.map { postDto ->
+                    val likes = likeCollection.whereEqualTo("postUuid", postDto.uuid).get().await()
+                        .toObjects(LikeDto::class.java)
+                    val writer = userCollection.document(postDto.writerUuid).get().await()
+                        .toObject(UserDto::class.java)
+                    val meLiked = likes.any { like -> like.userUuid == currentUserId }
+                    val bookmarks =
+                        bookMarkCollection.whereEqualTo("postUuid", postDto.uuid).get().await()
+                            .toObjects(BookMarkDto::class.java)
+                    val meBookmarked =
+                        bookmarks.any { bookmark -> bookmark.userUuid == currentUserId }
 
-                Post(
-                    uuid = postDto.uuid,
-                    writerUuid = writer!!.uuid,
-                    writerName = writer.name,
-                    writerProfileImageUrl = writer.profileImageUrl,
-                    content = postDto.content,
-                    imageUrl = postDto.imageUrl,
-                    likeCount = likes.size,
-                    meLiked = meLiked,
-                    isMine = postDto.writerUuid == currentUserId,
-                    bookMarkChecked = meBookmarked,
-                    time = postDto.dateTime.toString()
-                )
-            }
+                    Post(
+                        uuid = postDto.uuid,
+                        writerUuid = writer!!.uuid,
+                        writerName = writer.name,
+                        writerProfileImageUrl = writer.profileImageUrl,
+                        content = postDto.content,
+                        imageUrl = postDto.imageUrl,
+                        likeCount = likes.size,
+                        meLiked = meLiked,
+                        isMine = postDto.writerUuid == currentUserId,
+                        time = postDto.dateTime.toString(),
+                        bookMarkChecked = meBookmarked
+
+                    )
+                }
 
             LoadResult.Page(
-                data = posts,
-                prevKey = null,
-                nextKey = nextPage
+                data = posts, prevKey = null, nextKey = nextPage
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

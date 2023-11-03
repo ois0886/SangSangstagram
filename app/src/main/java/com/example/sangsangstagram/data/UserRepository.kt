@@ -15,13 +15,14 @@ import com.google.firebase.storage.ktx.storage
 import com.example.sangsangstagram.data.source.UserPagingSource
 import com.example.sangsangstagram.domain.model.UserDetail
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.util.*
 
 object UserRepository {
 
-    private const val PAGE_SIZE = 30
+    const val PAGE_SIZE = 30
 
     private var followingList: MutableList<FollowDto>? = null
     private var allUserList: MutableList<UserDto>? = null
@@ -55,36 +56,42 @@ object UserRepository {
         val followCollection = db.collection("followers")
 
         try {
-            val followingUuids = followCollection.whereEqualTo("followerUuid", followerUuid)
+            val followeeUuids = followCollection.whereEqualTo("followerUuid", followerUuid)
                 .get().await()
                 .documents.map {
                     requireNotNull(it.toObject(FollowDto::class.java)).followingUuid
                 }
-            val followingUsersQuery = userCollection.whereIn("uuid", followingUuids)
+            if (followeeUuids.isEmpty()) {
+                return emptyFlow()
+            }
+            val userReferences = followeeUuids.map { userCollection.document(it) }
 
             return Pager(PagingConfig(pageSize = PAGE_SIZE)) {
-                UserPagingSource(userQuery = followingUsersQuery)
+                UserPagingSource(userReferences = userReferences)
             }.flow
         } catch (e: Exception) {
             throw e
         }
     }
 
-    suspend fun getFollowersPaging(followingUuid: String): Flow<PagingData<UserDto>> {
+    suspend fun getFollowersPaging(followeeUuid: String): Flow<PagingData<UserDto>> {
         val db = Firebase.firestore
         val userCollection = db.collection("users")
         val followCollection = db.collection("followers")
 
         try {
-            val followerUuids = followCollection.whereEqualTo("followingUuid", followingUuid)
+            val followerUuids = followCollection.whereEqualTo("followeeUuid", followeeUuid)
                 .get().await()
                 .documents.map {
                     requireNotNull(it.toObject(FollowDto::class.java)).followerUuid
                 }
-            val followersQuery = userCollection.whereIn("uuid", followerUuids)
+            if (followerUuids.isEmpty()) {
+                return emptyFlow()
+            }
+            val userReferences = followerUuids.map { userCollection.document(it) }
 
             return Pager(PagingConfig(pageSize = PAGE_SIZE)) {
-                UserPagingSource(userQuery = followersQuery)
+                UserPagingSource(userReferences = userReferences)
             }.flow
         } catch (e: Exception) {
             throw e
