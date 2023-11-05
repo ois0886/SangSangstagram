@@ -154,6 +154,7 @@ class InfoUpdateActivity : AppCompatActivity() {
             val canSave = viewModel.canSave
             isEnabled = canSave
         }
+
         if (uiState.isImageChanged) {
             updateUserImage(uiState.selectedImageBitmap)
         }
@@ -161,6 +162,7 @@ class InfoUpdateActivity : AppCompatActivity() {
         if (uiState.successToSave) {
             showSnackBar(getString(R.string.chage_profile))
         }
+
         if (uiState.userMessage != null) {
             showSnackBar(uiState.userMessage)
             viewModel.userMessageShown()
